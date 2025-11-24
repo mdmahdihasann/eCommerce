@@ -2,8 +2,8 @@ import React from 'react'
 
 const NewsLatterSection = () => {
   return (
-    <section className="py-20 bg-gray-900 text-white">
-        <div className="max-w-4xl mx-auto text-center px-4">
+    <section className="py-20 bg-gray-900 text-white mt-[60px] rounded-xl">
+        <div className="max-w-4xl mx-auto text-center px-4 ">
           <h2 className="text-3xl font-bold">Join Our Newsletter</h2>
           <p className="mt-2 text-gray-300">
             Be the first to know about new drops & exclusive offers.

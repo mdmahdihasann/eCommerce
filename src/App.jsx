@@ -1,4 +1,3 @@
-import Announcement from "./components/Announcement";
 import Header from "./components/Header";
 import Page from "./components/Page";
 import Newsletter from "./components/Newsletter";
@@ -7,6 +6,7 @@ import "./App.css";
 import { useState } from "react";
 import { CartContext } from "./context/CartContext";
 import getData from "./data/data";
+import NewsLatterSection from "./components/section/NewsLatterSection";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -58,7 +58,6 @@ function App() {
   return (
     <>
       <CartContext.Provider value={{ cart, setCart }}>
-        <Announcement />
         <Header handleInputValue={handleSearchValue} />
         <Page
           addToCart={HandleAddCart}
@@ -66,7 +65,6 @@ function App() {
           data={filterData}
           onHandleSelect={handleSelected}
         />
-        <Newsletter />
         <Footer />
       </CartContext.Provider>
     </>

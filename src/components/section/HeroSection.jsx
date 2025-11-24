@@ -12,22 +12,22 @@ const HeroSection = () => {
   ];
 
   return (
-    <section className="w-full h-screen overflow-hidden">
+    <section className="w-full min-h-screen overflow-hidden">
       <Swiper
         modules={[Autoplay, EffectFade]}
         effect="fade"
         autoplay={{
-          delay: 1800, // 🔥 Fast slide speed
+          delay: 1800,
           disableOnInteraction: false,
         }}
         loop={true}
-        className="w-full h-full"
+        className="w-full h-screen"
       >
         {images.map((img, index) => (
           <SwiperSlide key={index}>
             <img
               src={img}
-              className="w-full h-full object-cover rounded-xl"
+              className="w-full h-screen object-cover rounded-xl"
               alt="Fashion Banner"
             />
           </SwiperSlide>
