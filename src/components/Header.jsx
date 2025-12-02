@@ -4,7 +4,7 @@ import { CartContext } from "../context/CartContext";
 const Header = () => {
   const { cart } = useContext(CartContext);
   return (
-    <header className="py-4 px-4 md:px-8 shadow-sm bg-white">
+    <header className="py-4 px-4 md:px-8 bg-white">
       <div className="container mx-auto flex items-center justify-between">
         {/* Logo */}
         <a href="#" className="text-3xl font-extrabold tracking-tight">

@@ -3,16 +3,15 @@ import { Autoplay, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
 
+
 const HeroSection = () => {
-  const images = [
-    "https://images.pexels.com/photos/29834641/pexels-photo-29834641.jpeg?auto=compress&cs=tinysrgb&w=1800",
-    "https://images.pexels.com/photos/29834645/pexels-photo-29834645.jpeg?auto=compress&cs=tinysrgb&w=1800",
-    "https://images.pexels.com/photos/29834632/pexels-photo-29834632.jpeg?auto=compress&cs=tinysrgb&w=1800",
-    "https://images.pexels.com/photos/30700820/pexels-photo-30700820.jpeg?auto=compress&cs=tinysrgb&w=1800",
-  ];
+   const images = [
+  "https://objectstorage.ap-singapore-1.oraclecloud.com/n/aximxvolvk6d/b/sailorbucket/o/uploads/all/AZ498xOWkTQR21gKoV5wlvTY7r70Wrag8bzYnXVq.jpg",
+  "https://objectstorage.ap-singapore-1.oraclecloud.com/n/aximxvolvk6d/b/sailorbucket/o/uploads/all/3wM9JMdPGtv9GIcYYpZk34O41804XbTY49nK8vUZ.png",
+];
 
   return (
-    <section className="w-full min-h-screen overflow-hidden">
+    <section className="w-full h-[600px] overflow-hidden rounded-lg">
       <Swiper
         modules={[Autoplay, EffectFade]}
         effect="fade"
