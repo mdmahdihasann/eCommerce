@@ -1,36 +1,64 @@
-import { useContext } from "react";
-import { CartContext } from "../context/CartContext";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
-  const { cart } = useContext(CartContext);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Check scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="py-4 px-4 md:px-8 bg-white">
-      <div className="container mx-auto flex items-center justify-between">
+    <header
+      className={`bg-white/90 backdrop-blur-md sticky top-0 z-50 transition-shadow duration-300 ${
+        isScrolled ? "shadow-lg" : ""
+      }`}
+    >
+      <div className="container mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="text-3xl font-extrabold tracking-tight">
+        <Link
+          to="/"
+          className="text-3xl font-extrabold tracking-tight text-gray-900 hover:text-gray-700 transition"
+        >
           SHOP
-        </a>
+        </Link>
 
         {/* Navigation */}
-        <nav className="hidden md:flex items-center space-x-8 text-[15px] font-medium">
+        <nav className="hidden md:flex items-center space-x-8 text-[17px] font-medium">
+          {" "}
           <a href="#" className="hover:text-gray-600 transition-colors">
-            Shop
-          </a>
+            {" "}
+            Shop{" "}
+          </a>{" "}
           <a href="#" className="hover:text-gray-600 transition-colors">
-            On Sale
-          </a>
+            {" "}
+            On Sale{" "}
+          </a>{" "}
           <a href="#" className="hover:text-gray-600 transition-colors">
-            New Arrivals
-          </a>
+            {" "}
+            New Arrivals{" "}
+          </a>{" "}
           <a href="#" className="hover:text-gray-600 transition-colors">
-            Brands
-          </a>
+            {" "}
+            Brands{" "}
+          </a>{" "}
         </nav>
 
         {/* Icons */}
         <div className="flex items-center space-x-6">
-          {/* Cart Icon with Count Badge */}
-          <div className="relative cursor-pointer hover:text-gray-600 transition-colors">
+          {/* Cart Icon + Badge */}
+          <div className="relative cursor-pointer hover:text-gray-700 transition">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -45,18 +73,16 @@ const Header = () => {
                 d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
               />
             </svg>
-
-            {/* Count Badge */}
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-              {cart.length}
+            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-semibold rounded-full w-5 h-5 flex items-center justify-center shadow">
+              0
             </span>
           </div>
 
           {/* User Icon */}
-          <div className="cursor-pointer hover:text-gray-600 transition-colors">
+          <Link to="/login" className="hover:text-gray-700 transition">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
+              className="h-7 w-7"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -68,7 +94,7 @@ const Header = () => {
                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
               />
             </svg>
-          </div>
+          </Link>
         </div>
       </div>
     </header>

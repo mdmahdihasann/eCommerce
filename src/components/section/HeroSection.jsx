@@ -11,7 +11,7 @@ const HeroSection = () => {
 ];
 
   return (
-    <section className="w-full h-[600px] overflow-hidden rounded-lg">
+    <section className="w-[100%] h-[600px] overflow-hidden rounded-lg">
       <Swiper
         modules={[Autoplay, EffectFade]}
         effect="fade"

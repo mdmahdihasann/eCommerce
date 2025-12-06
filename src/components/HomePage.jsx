@@ -53,11 +53,9 @@ const HomePage = () => {
   //   });
 
   return (
-    <main className="max-w-[1300px] w-full mx-auto px-4">
-      {/* Hero Section */}
+    <div>
       <HeroSection />
 
-      {/* Products Title */}
       <h2 className="text-2xl font-bold mb-6 mt-8">Your Products</h2>
       <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         {data.slice(0, 8).map((item) => (
@@ -74,7 +72,7 @@ const HomePage = () => {
       {/* <CartSection onHandleDelete={onHandleDelete} /> */}
 
       <NewsLatterSection />
-    </main>
+    </div>
   );
 };
 

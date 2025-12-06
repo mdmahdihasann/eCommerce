@@ -7,7 +7,7 @@ const Footer = () => {
         
         {/* Logo + Tagline */}
         <div className="text-center md:text-left mb-3 md:mb-0">
-          <a href="#" className="text-xl font-bold text-gray-900">LWS.SHOP</a>
+          <a href="#" className="text-xl font-bold text-gray-900">SHOP</a>
           <p className="text-gray-700 text-sm mt-1">
             Stylish clothes for everyone
           </p>
@@ -22,7 +22,7 @@ const Footer = () => {
 
         {/* Copyright */}
         <div className="text-gray-600 text-sm text-center md:text-right">
-          &copy; {new Date().getFullYear()} LWS.SHOP. All rights reserved.
+          &copy; {new Date().getFullYear()} SHOP. All rights reserved.
         </div>
 
       </div>

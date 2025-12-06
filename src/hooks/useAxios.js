@@ -1,37 +1,46 @@
 import { useEffect } from "react";
-import { useAuth } from "./useAuth";
 import { api } from "../api/api";
+import { useAuth } from "./useAuth";
 import axios from "axios";
+
 export const useAxios = () => {
   const { auth, setAuth } = useAuth();
 
   useEffect(() => {
-    const interchepRequest = api.interceptors.request.use(
+    const requestIntercept = api.interceptors.request.use(
       (config) => {
-        const AuthToken = auth?.AuthToken;
-        if (AuthToken) {
-          config.headers.Authorization = `Berrar Token ${AuthToken}`;
+        const authToken = auth?.authToken;
+        if (authToken) {
+          config.headers.Authorization = `Bearer ${authToken}`;
         }
         return config;
       },
       (error) => Promise.reject(error)
     );
-    const interchepResponse = api.interceptors.response.use(
+
+    const responseIntercept = api.interceptors.response.use(
       (response) => response,
       async (error) => {
-        const orginalRequest = error?.config;
-        if (error.response.status === 401 && !orginalRequest._retry) {
-          orginalRequest._retry = true;
+        const originalRequest = error?.config;
+
+        if (error.response?.status === 401 && !originalRequest._retry) {
+          originalRequest._retry = true;
+
           try {
-            const refreshToken = auth?.RefreshToken;
+            const refreshToken = auth.refreshToken;
+
             const response = await axios.post(
               `${import.meta.env.VITE_SERVER_BASE_URL}/auth/refresh-token`,
               { refreshToken }
             );
+
             const { token } = response.data;
-            setAuth({ ...auth, AuthToken: token });
-            orginalRequest.headers.Authorization = `Berrar Token ${token}`;
-            return axios(orginalRequest);
+            setAuth({ ...auth, authToken: token });
+
+            originalRequest.headers.Authorization = `Bearer ${token}`;
+
+            return axios(originalRequest);
+
           } catch (error) {
             console.log(error);
           }
@@ -40,11 +49,12 @@ export const useAxios = () => {
         return Promise.reject(error);
       }
     );
+
     return () => {
-      api.interceptors.request.eject(interchepRequest);
-      api.interceptors.request.eject(interchepResponse);
+      api.interceptors.request.eject(requestIntercept);
+      api.interceptors.response.eject(responseIntercept);
     };
-  }, [auth.AuthToken]);
+  }, [auth.authToken]);
 
   return { api };
 };

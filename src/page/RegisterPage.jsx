@@ -1,34 +1,25 @@
-import { Link } from "react-router-dom";
 import Field from "../components/common/Field";
+import { Link, useNavigate } from "react-router-dom";
+import { useAxios } from "../hooks/useAxios";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
-import axios from "axios";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const navigate = useNavigate();
-  const { setAuth } = useAuth();
+  const { api } = useAxios();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const submitFrom = async (formData) => {
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/auth/login`,
-        formData
-      );
 
-      if (response.status == 200) {
-        const { user, token } = response.data;
-        if (token) {
-          const authToken = token.token;
-          const refreshToken = token.refreshToken;
-          setAuth({ user, authToken, refreshToken });
-          {authToken && navigate("/dashboard")}
-          
-        }
+  const handleSubmitFrom = async (fromData) => {
+    try {
+      const response = await api.post(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/auth/register`,
+        fromData
+      );
+      if (response.status === 201) {
+        navigate("/login");
       }
     } catch (error) {
       console.log(error);
@@ -42,16 +33,46 @@ const LoginPage = () => {
             {/* form */}
 
             <form
-              onSubmit={handleSubmit(submitFrom)}
+              onSubmit={handleSubmit(handleSubmitFrom)}
               className="p-6 rounded-xl space-y-5 max-w-md w-full mx-auto border border-gray-200"
             >
               <h2 className="text-2xl font-semibold text-gray-800 text-center">
-                Login Form
+                Register Form
               </h2>
 
+              <Field
+                label="First Name"
+                className="pb-2"
+                error={errors.firstName}
+              >
+                <input
+                  {...register("firstName", {
+                    required: "The field is required",
+                  })}
+                  type="firstName"
+                  id="firstName"
+                  name="firstName"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg mt-1"
+                  placeholder="Enter your firstName"
+                />
+              </Field>
+              <Field label="Last Name" className="pb-2" error={errors.lastName}>
+                <input
+                  {...register("lastName", {
+                    required: "The field is required",
+                  })}
+                  type="lastName"
+                  id="lastName"
+                  name="lastName"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg mt-1"
+                  placeholder="Enter your lastName"
+                />
+              </Field>
               <Field label="Email" className="pb-2" error={errors.email}>
                 <input
-                  {...register("email", { required: "This Email is require" })}
+                  {...register("email", {
+                    required: "The email field is required",
+                  })}
                   type="email"
                   id="email"
                   name="email"
@@ -60,10 +81,10 @@ const LoginPage = () => {
                 />
               </Field>
 
-              <Field label="Password" className="pb-2" error={errors.email}>
+              <Field label="Password" className="pb-2" error={errors.password}>
                 <input
                   {...register("password", {
-                    required: "this Password is require",
+                    required: "The password field is required",
                     minLength: {
                       value: 8,
                       message: "Your Password must ba a 8 character",
@@ -89,13 +110,13 @@ const LoginPage = () => {
 
             <div className="py-4 lg:py-6">
               <p className="text-center text-xs text-gray-600/95 lg:text-sm">
-                Don’t have account?
+                If have an account.
                 <Link
                   className="text-gray-500 transition-all hover:text-lwsGreen hover:underline"
-                  to="/register"
+                  to="/login"
                 >
                   {" "}
-                  Create New{" "}
+                  Login{" "}
                 </Link>
               </p>
             </div>
@@ -107,4 +128,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
