@@ -36,7 +36,7 @@ const createNewProducts = (req, res) => {
       rating: Number(req.body.rating) || 0,
       stock: Number(req.body.stock) || 0,
       price: Number(req.body.price) || 0,
-      productsType: req.file ? "image" : "text",
+      productsType: req.file ? "cover" : "text",
       createdAt: new Date(),
     };
 

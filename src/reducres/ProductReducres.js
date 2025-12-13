@@ -19,6 +19,25 @@ const ProductReducers = (state, action) => {
         loading: false,
         products: action.data,
       };
+    case actions.products.DATA_CREATE:
+      return {
+        ...state,
+        products: [...state.products, action.data]
+      }
+    case actions.products.DATA_DELETE:
+      return{
+        ...state,
+        products: state.products.filter((product)=> product.id !== action.data)
+      }
+    case actions.products.DATA_FETCH_ERROR:
+      return{
+        ...state,
+        loading: false,
+        error: action.error
+      }
+    default:{
+      return state
+    }
   }
 };
 
