@@ -6,8 +6,16 @@ const productImage = require("../middleware/productsImage");
 // Routes
 router.get("/", ProductController.getProducts);
 router.get("/:productsId", ProductController.getSingleProducts);
-router.post("/", productImage.single("cover"), ProductController.createNewProducts);
-router.put("/:productsId", ProductController.updateProducts);
+router.post(
+  "/",
+  productImage.single("cover"),
+  ProductController.createNewProducts
+);
+router.put(
+  "/:productsId",
+  productImage.single("cover"),
+  ProductController.updateProducts
+);
 router.delete("/:productsId", ProductController.deleteProducts);
 
 module.exports = router;

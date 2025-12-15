@@ -3,18 +3,35 @@ import Field from "../components/common/Field";
 import { useAxios } from "../hooks/useAxios";
 import { useProduct } from "../hooks/useProduct";
 import { actions } from "../actions";
+import { useEffect, useState } from "react";
 
-const CreateFrom = ({ setIsProductPopupOpen }) => {
+const CreateForm = ({ setIsProductPopupOpen, onEditMode }) => {
   const { api } = useAxios();
   const { dispatch } = useProduct();
+  const [isAdd] = useState(Object.is(onEditMode, null));
 
   const {
     handleSubmit,
     formState: { errors },
     register,
+    reset,
+    setValue,
   } = useForm();
 
-  const handleFromData = async (formData) => {
+  useEffect(() => {
+    if (!isAdd && onEditMode) {
+      setValue("title", onEditMode.title || "");
+      setValue("rating", onEditMode.rating || 1);
+      setValue("stock", onEditMode.stock || 0);
+      setValue("price", onEditMode.price || 0);
+    }
+  }, [isAdd, onEditMode, setValue]);
+
+  const onClosePopup = () => {
+    setIsProductPopupOpen(false);
+  };
+
+  const handleFormData = async (formData) => {
     const data = new FormData();
     data.append("title", formData.title);
     data.append("rating", formData.rating);
@@ -23,15 +40,32 @@ const CreateFrom = ({ setIsProductPopupOpen }) => {
     if (formData.cover && formData.cover.length > 0) {
       data.append("cover", formData.cover[0]);
     }
+
     try {
-      dispatch({ type: actions.products.DATA_FETCH_ERROR });
-      const response = await api.post(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/products`,
-        data
-      );      
-      if (response.status === 201) {
-        dispatch({ type: actions.products.DATA_CREATE, data: response.data });
-        setIsProductPopupOpen(false)
+      if (isAdd) {
+        dispatch({ type: actions.products.DATA_FETCH_ERROR });
+        const response = await api.post(
+          `${import.meta.env.VITE_SERVER_BASE_URL}/products`,
+          data
+        );
+        if (response.status === 201) {
+          dispatch({ type: actions.products.DATA_CREATE, data: response.data });
+          setIsProductPopupOpen(false);
+        }
+      } else {
+        const response = await api.put(
+          `${import.meta.env.VITE_SERVER_BASE_URL}/products/${onEditMode.id}`,
+          data
+        );
+        
+        if (response.status === 200) {
+          dispatch({
+            type: actions.products.DATA_UPDATED,
+            data: response.data,
+          });
+        }
+        setIsProductPopupOpen(false);
+        reset();
       }
     } catch (error) {
       dispatch({
@@ -40,34 +74,32 @@ const CreateFrom = ({ setIsProductPopupOpen }) => {
       });
     }
   };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-xl w-96 shadow-lg">
         <h3 className="text-xl font-bold mb-4 text-gray-800">
-          Add New Product
+          {isAdd ? "Add New Product" : "Update Product"}
         </h3>
-        <form
-          className="flex flex-col gap-3"
-          onSubmit={handleSubmit(handleFromData)}
-        >
+        <form className="flex flex-col gap-3" onSubmit={handleSubmit(handleFormData)}>
           <Field htmlFor="title" error={errors.title}>
             <input
               {...register("title", { required: "The required field" })}
-              type="title"
+              type="text"
               id="title"
               placeholder="Title"
-              className="p-3 rounded border border-gray-300 text-gray-800 w-[100%]"
-              required
+              className="p-3 rounded border border-gray-300 text-gray-800 w-full"
             />
           </Field>
+
           <Field htmlFor="cover" error={errors.cover}>
             <input
-              {...register("cover", { required: "The required file" })}
+              {...register("cover", {
+                required: isAdd ? "The required file" : false,
+              })}
               type="file"
               id="cover"
-              placeholder="Cover URL"
-              className="p-3 rounded border border-gray-300 text-gray-800 w-[100%] w-[100%]"
-              required
+              className="p-3 rounded border border-gray-300 text-gray-800 w-full"
             />
           </Field>
 
@@ -79,33 +111,33 @@ const CreateFrom = ({ setIsProductPopupOpen }) => {
               placeholder="Rating"
               min="1"
               max="5"
-              className="p-3 rounded border border-gray-300 text-gray-800 w-[100%]"
-              required
+              className="p-3 rounded border border-gray-300 text-gray-800 w-full"
             />
           </Field>
+
           <Field htmlFor="stock" error={errors.stock}>
             <input
               {...register("stock", { required: "The required field" })}
               type="number"
               id="stock"
               placeholder="Stock"
-              className="p-3 rounded border border-gray-300 text-gray-800 w-[100%]"
-              required
+              className="p-3 rounded border border-gray-300 text-gray-800 w-full"
             />
           </Field>
+
           <Field htmlFor="price" error={errors.price}>
             <input
               {...register("price", { required: "The required field" })}
               type="number"
               id="price"
               placeholder="Price"
-              className="p-3 rounded border border-gray-300 text-gray-800 w-[100%]"
-              required
+              className="p-3 rounded border border-gray-300 text-gray-800 w-full"
             />
           </Field>
+
           <div className="flex justify-between gap-3 mt-2">
             <button
-              onClick={() => setIsProductPopupOpen(false)}
+              onClick={onClosePopup}
               type="button"
               className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 transition"
             >
@@ -115,7 +147,7 @@ const CreateFrom = ({ setIsProductPopupOpen }) => {
               type="submit"
               className="px-4 py-2 rounded bg-green-500 text-white hover:bg-green-600 transition"
             >
-              Add Product
+              {isAdd ? "Add Product" : "Update Product"}
             </button>
           </div>
         </form>
@@ -124,4 +156,4 @@ const CreateFrom = ({ setIsProductPopupOpen }) => {
   );
 };
 
-export default CreateFrom;
+export default CreateForm;

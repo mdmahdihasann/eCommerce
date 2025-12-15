@@ -6,9 +6,13 @@ import CreateFrom from "./CreateFrom";
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-  const [isProductPopupOpen, setIsProductPopupOpen] = useState(false)
+  const [isProductPopupOpen, setIsProductPopupOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(null);
 
-
+  const handleProductEdit = (productEdit) => {
+    setIsEditMode(productEdit);
+    setIsProductPopupOpen(true);
+  };
   return (
     <div className="flex h-screen font-sans bg-gray-100 text-gray-800">
       {/* Sidebar */}
@@ -19,7 +23,9 @@ const Dashboard = () => {
       >
         {/* Sidebar Header */}
         <div className="flex items-center justify-between p-5 border-b border-gray-200">
-          {sidebarOpen && <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>}
+          {sidebarOpen && (
+            <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
+          )}
           <button
             onClick={toggleSidebar}
             className="text-gray-500 hover:text-green-500 transition"
@@ -76,7 +82,10 @@ const Dashboard = () => {
         <header className="flex justify-between items-center p-5 bg-white shadow-md rounded-b-lg">
           <h2 className="text-2xl font-semibold text-gray-800">Products</h2>
           <button
-            onClick={()=>setIsProductPopupOpen(!isProductPopupOpen)}
+            onClick={() => {
+              setIsEditMode(null);
+              setIsProductPopupOpen(true);
+            }}
             className="flex items-center gap-2 bg-green-500 text-white px-5 py-2 rounded-md hover:bg-green-600 shadow transition"
           >
             <FaPlus />
@@ -87,14 +96,20 @@ const Dashboard = () => {
         {/* Table Section */}
         <main className="p-6 overflow-auto flex-1">
           <div className="bg-white rounded-xl shadow overflow-x-auto">
-            <ProductTable/>
+            <ProductTable
+              setIsProductPopupOpen={setIsProductPopupOpen}
+              onProductEdit={handleProductEdit}
+            />
           </div>
         </main>
       </div>
 
       {/* Add Product Popup */}
       {isProductPopupOpen && (
-        <CreateFrom setIsProductPopupOpen={setIsProductPopupOpen}/>
+        <CreateFrom
+          setIsProductPopupOpen={setIsProductPopupOpen}
+          onEditMode={isEditMode}
+        />
       )}
     </div>
   );

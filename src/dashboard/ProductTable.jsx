@@ -4,7 +4,7 @@ import { useProduct } from "../hooks/useProduct";
 import { actions } from "../actions";
 import { FaPen, FaTrash } from "react-icons/fa";
 
-const ProductTable = () => {
+const ProductTable = ({onProductEdit}) => {
   const { api } = useAxios();
   const { state, dispatch } = useProduct();
   const productTableData = state?.products?.sort((a, b)=> b.id - a.id);
@@ -29,6 +29,9 @@ const ProductTable = () => {
     };
     productDataFeched();
   }, []);
+
+  //updated
+  
 
   //delete code
   const handleDelete = async(delteId) =>{
@@ -74,7 +77,7 @@ const ProductTable = () => {
             <td className="px-6 py-3">{p.stock}</td>
             <td className="px-6 py-3">${p.price}</td>
             <td className="px-6 py-3 flex gap-3">
-              <button className="text-blue-500 hover:text-blue-700 transition">
+              <button className="text-blue-500 hover:text-blue-700 transition" onClick={()=>onProductEdit(p)}>
                 <FaPen size={16} />
               </button>
               <button className="text-red-500 hover:text-red-700 transition" onClick={()=>handleDelete(p.id)}>

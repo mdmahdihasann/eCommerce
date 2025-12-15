@@ -1,4 +1,4 @@
-
+const path = require("path");
 // GET all products
 const getProducts = (req, res) => {
   const { db } = req.app;
@@ -16,7 +16,10 @@ const getSingleProducts = (req, res) => {
   const { db } = req.app;
   const { productsId } = req.params;
 
-  const product = db.get("products").find({ id: Number(productsId) }).value();
+  const product = db
+    .get("products")
+    .find({ id: Number(productsId) })
+    .value();
   if (!product) return res.status(404).json({ message: "Product not found" });
 
   res.status(200).json(product);
@@ -45,23 +48,33 @@ const createNewProducts = (req, res) => {
     return res.status(201).json(product);
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ message: "Server error while creating product" });
+    return res
+      .status(500)
+      .json({ message: "Server error while creating product" });
   }
 };
 
-
-// UPDATE product
 const updateProducts = (req, res) => {
   const { db } = req.app;
-  const { productsId } = req.params;
-
-  const product = db.get("products").find({ id: Number(productsId) }).value();
+  const product = db
+    .get("products")
+    .find({ id: Number(req.params.productsId) })
+    .value();
   if (!product) return res.status(404).json({ message: "Product not found" });
+
+  const updatedData = {};
+
+  if (req.body.title !== undefined) updatedData.title = req.body.title;
+  if (req.body.rating !== undefined)
+    updatedData.rating = Number(req.body.rating);
+  if (req.body.stock !== undefined) updatedData.stock = Number(req.body.stock);
+  if (req.body.price !== undefined) updatedData.price = Number(req.body.price);
+  if (req.file) updatedData.cover = `uploads/products/${req.file.filename}`;
 
   const updatedProduct = db
     .get("products")
-    .find({ id: Number(productsId) })
-    .assign(req.body)
+    .find({ id: Number(req.params.productsId) })
+    .assign(updatedData)
     .write();
 
   res.status(200).json(updatedProduct);
@@ -72,10 +85,15 @@ const deleteProducts = (req, res) => {
   const { db } = req.app;
   const { productsId } = req.params;
 
-  const product = db.get("products").find({ id: Number(productsId) }).value();
+  const product = db
+    .get("products")
+    .find({ id: Number(productsId) })
+    .value();
   if (!product) return res.status(404).json({ message: "Product not found" });
 
-  db.get("products").remove({ id: Number(productsId) }).write();
+  db.get("products")
+    .remove({ id: Number(productsId) })
+    .write();
 
   res.status(200).json({ message: "Product deleted successfully" });
 };

@@ -55,6 +55,36 @@
       "rating": 4,
       "stock": 10,
       "price": 210
+    },
+    {
+      "id": 10,
+      "title": "ki bolo tai na",
+      "cover": "uploads/products/cover-1765736764992-69594855.png",
+      "rating": 4,
+      "stock": 52,
+      "price": 600,
+      "productsType": "cover",
+      "createdAt": "2025-12-14T18:26:05.421Z"
+    },
+    {
+      "id": 11,
+      "title": "Black Striped T-shirt wow nice",
+      "cover": "uploads/products/cover-1765813487827-269946367.png",
+      "rating": 4,
+      "stock": 21,
+      "price": 50,
+      "productsType": "cover",
+      "createdAt": "2025-12-15T15:44:47.836Z"
+    },
+    {
+      "id": 12,
+      "title": "ti shart",
+      "cover": "uploads/products/1765818668822.jpg",
+      "rating": 4,
+      "stock": 600,
+      "price": 900,
+      "productsType": "cover",
+      "createdAt": "2025-12-15T16:58:16.892Z"
     }
   ],
   "comments": [],
