@@ -1,13 +1,16 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import HomePage from "./components/HomePage";
+import HomePage from "./components/pages/HomePage";
 import LoginPage from "./page/LoginPage";
 import Frontend from "./components/Frontend";
 import RegisterPage from "./page/RegisterPage";
 import Dashboard from "./dashboard/Dashboard";
+import ShopPage from "./components/pages/ShopPage";
+import CartPage from "./components/pages/cart/CartPage";
 
 
 function App() {
+  
   
 
   return (
@@ -15,6 +18,8 @@ function App() {
     <Routes>
       <Route element={<Frontend/>}>
         <Route path="/" element={<HomePage/>}/>
+        <Route path="/shop" element={<ShopPage/>}/>
+        <Route path="/cart" element={<CartPage/>}/>
       </Route>
       <Route path="/dashboard" element={<Dashboard/>}/>
       <Route path="/login" element={<LoginPage/>}/>

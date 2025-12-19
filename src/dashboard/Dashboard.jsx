@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FaBars, FaSignOutAlt, FaPen, FaTrash, FaPlus } from "react-icons/fa";
 import ProductTable from "./ProductTable";
 import CreateFrom from "./CreateFrom";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -38,13 +39,13 @@ const Dashboard = () => {
         <nav className="flex-1 p-5">
           <ul className="space-y-3">
             <li>
-              <a
-                href="#"
+              <Link
+                to="/"
                 className="flex items-center gap-4 p-2 rounded-md text-gray-600 hover:text-green-500 transition"
               >
                 <i className="fas fa-home"></i>
                 {sidebarOpen && <span>Home</span>}
-              </a>
+              </Link>
             </li>
             <li>
               <a

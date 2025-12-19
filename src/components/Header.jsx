@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const cartItems = useSelector((state) => state.cart.items);
+  const { auth } = useAuth();
 
   // Check scroll position
   useEffect(() => {
@@ -37,10 +41,10 @@ const Header = () => {
         {/* Navigation */}
         <nav className="hidden md:flex items-center space-x-8 text-[17px] font-medium">
           {" "}
-          <a href="#" className="hover:text-gray-600 transition-colors">
+          <Link to="/shop" className="hover:text-gray-600 transition-colors">
             {" "}
             Shop{" "}
-          </a>{" "}
+          </Link>{" "}
           <a href="#" className="hover:text-gray-600 transition-colors">
             {" "}
             On Sale{" "}
@@ -58,7 +62,10 @@ const Header = () => {
         {/* Icons */}
         <div className="flex items-center space-x-6">
           {/* Cart Icon + Badge */}
-          <div className="relative cursor-pointer hover:text-gray-700 transition">
+          <Link
+            to={!auth?.user?.id ? "/login" : "/cart"}
+            className="relative cursor-pointer hover:text-gray-700 transition"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -74,27 +81,31 @@ const Header = () => {
               />
             </svg>
             <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-semibold rounded-full w-5 h-5 flex items-center justify-center shadow">
-              0
+              {cartItems ? cartItems?.length : 0}
             </span>
-          </div>
+          </Link>
 
           {/* User Icon */}
-          <Link to="/login" className="hover:text-gray-700 transition">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-7 w-7"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-              />
-            </svg>
-          </Link>
+          {auth?.authToken ? (
+            <Link to="/dashboard">Dashboard</Link>
+          ) : (
+            <Link to="/login" className="hover:text-gray-700 transition">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-7 w-7"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+            </Link>
+          )}
         </div>
       </div>
     </header>

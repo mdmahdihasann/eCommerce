@@ -2,7 +2,7 @@
 export default {
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}", // Make sure this path is correct
+    "./src/**/*.{js,ts,jsx,tsx}", 
   ],
   theme: {
     extend: {
@@ -11,6 +11,9 @@ export default {
         deepDark: "#17181C",
         mediumDark: "#1E1F24", 
         lighterDark: "#27292F",
+      },
+      fontFamily: {
+        outfit: ['Outfit', 'sans-serif'],
       },
     },
   },

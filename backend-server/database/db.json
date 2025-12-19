@@ -87,7 +87,26 @@
       "createdAt": "2025-12-15T16:58:16.892Z"
     }
   ],
-  "comments": [],
+  "cart": [
+    {
+      "id": 2,
+      "productId": 4,
+      "userId": "f9124399-fa61-4de0-80d8-c6521e230de7",
+      "title": "Skinny Fit Jeans",
+      "price": 120,
+      "cover": "uploads/products/image-8-1.png",
+      "quantity": 1
+    },
+    {
+      "id": 3,
+      "productId": 6,
+      "userId": "f9124399-fa61-4de0-80d8-c6521e230de7",
+      "title": "Sleeve Striped T-shirt",
+      "price": 190,
+      "cover": "uploads/products/image-8.png",
+      "quantity": 1
+    }
+  ],
   "users": [
     {
       "id": "6fd3ed42-2275-4d5f-a436-e5a3bf586c56",
