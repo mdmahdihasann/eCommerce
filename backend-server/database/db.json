@@ -89,22 +89,22 @@
   ],
   "cart": [
     {
-      "id": 2,
-      "productId": 4,
+      "id": 1,
+      "productId": 3,
       "userId": "f9124399-fa61-4de0-80d8-c6521e230de7",
-      "title": "Skinny Fit Jeans",
-      "price": 120,
-      "cover": "uploads/products/image-8-1.png",
-      "quantity": 1
+      "title": "Black Striped T-shirt",
+      "price": 140,
+      "cover": "uploads/products/image-7.png",
+      "quantity": 2
     },
     {
-      "id": 3,
-      "productId": 6,
+      "id": 2,
+      "productId": 5,
       "userId": "f9124399-fa61-4de0-80d8-c6521e230de7",
-      "title": "Sleeve Striped T-shirt",
-      "price": 190,
-      "cover": "uploads/products/image-8.png",
-      "quantity": 1
+      "title": "Checkered Shirt",
+      "price": 100,
+      "cover": "uploads/products/image-8-2.png",
+      "quantity": 3
     }
   ],
   "users": [

@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { getCartItems } from "../features/product-cart/productCartSlice";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const cartItems = useSelector((state) => state.cart.items);
   const { auth } = useAuth();
+  const dispatch = useDispatch();
 
   // Check scroll position
   useEffect(() => {
@@ -22,7 +24,11 @@ const Header = () => {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
+  useEffect(() => {
+    if (auth?.user?.id) {
+      dispatch(getCartItems(auth?.user?.id));
+    }
+  }, []);
   return (
     <header
       className={`bg-white/90 backdrop-blur-md sticky top-0 z-50 transition-shadow duration-300 ${

@@ -1,5 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { cartItemsDelete, getCartItems } from "../../../features/product-cart/productCartSlice";
+import {
+  cartItemsDelete,
+  getCartItems,
+} from "../../../features/product-cart/productCartSlice";
 import CartItems from "./CartItems";
 import OrderSummary from "./OrderSummary";
 import { useEffect } from "react";
@@ -7,26 +10,24 @@ import { useAuth } from "../../../hooks/useAuth";
 
 const CartPage = () => {
   const cartItems = useSelector((state) => state.cart.items);
-  const isLoading = useSelector((state)=> state.cart.isLoading)
-  const {auth} = useAuth();
+  const isLoading = useSelector((state) => state.cart.isLoading);
+  const { auth } = useAuth();
   const dispatch = useDispatch();
-  
-  const subtotal = cartItems.reduce((acc, item) => acc + item.price, 0);
+
+  const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   useEffect(() => {
-    if(auth?.user?.id){
+    if (auth?.user?.id) {
       dispatch(getCartItems(auth.user.id));
     }
-    
-  }, [dispatch,auth]);
-  
+  }, [dispatch, auth]);
 
   const handleCartDelete = (cartId) => {
     dispatch(cartItemsDelete(cartId));
   };
   if (isLoading) {
-  return <div>data Loading....</div>;
-}
+    return <div>data Loading....</div>;
+  }
 
   return (
     <div className="min-h-screen py-12 px-4 font-outfit">
@@ -37,13 +38,16 @@ const CartPage = () => {
 
         <div className="flex flex-col lg:flex-row gap-10">
           {/* Cart Items */}
-          {cartItems.length > 0 ? (<CartItems
-            handleCartDelete={handleCartDelete}
-            cartItems={cartItems}
-          />): (<div className="lg:w-2/3 min-h-[300px] flex items-center justify-center text-center border rounded-3xl font-semibold text-2xl">
-  No Cart Data
-</div>
-)}
+          {cartItems.length > 0 ? (
+            <CartItems
+              handleCartDelete={handleCartDelete}
+              cartItems={cartItems}
+            />
+          ) : (
+            <div className="lg:w-2/3 min-h-[300px] flex items-center justify-center text-center border rounded-3xl font-semibold text-2xl">
+              No Cart Data
+            </div>
+          )}
 
           {/* Summary */}
           <OrderSummary subtotal={subtotal} />

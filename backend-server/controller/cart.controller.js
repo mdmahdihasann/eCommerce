@@ -56,27 +56,44 @@ const addToCart = (req, res) => {
   res.status(201).json(newItem);
 };
 
-// UPDATE QUANTITY
 const updateQuantity = (req, res) => {
   const { db } = req.app;
   const { id } = req.params;
-  const { quantity } = req.body;
+  const { type } = req.body;
 
-  const item = db
-    .get("cart")
-    .find({ id: Number(id) })
-    .value();
+  if (!["inc", "dec"].includes(type)) {
+    return res.status(400).json({ message: "Invalid update type" });
+  }
+
+  const cartCollection = db.get("cart");
+
+  const item = cartCollection.find({ id: Number(id) }).value();
 
   if (!item) {
     return res.status(404).json({ message: "Item not found" });
   }
 
-  const updatedItem = db
-    .get("cart")
+  let newQuantity = item.quantity;
+
+  if (type === "inc") {
+    newQuantity += 1;
+  } else if (type === "dec") {
+    if (item.quantity <= 1) {
+      return res.status(400).json({ message: "Minimum quantity is 1" });
+    }
+    newQuantity -= 1;
+  }
+
+  // নতুন updated item object বানাও
+  const updatedItem = { ...item, quantity: newQuantity };
+
+  // chain দিয়ে assign করে write করো
+  cartCollection
     .find({ id: Number(id) })
-    .assign({ quantity })
+    .assign(updatedItem)
     .write();
 
+  // updated item টা return করো (200 status সাথে)
   res.status(200).json(updatedItem);
 };
 

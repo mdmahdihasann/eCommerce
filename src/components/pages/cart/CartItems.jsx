@@ -1,6 +1,14 @@
-import React from "react";
+import { useDispatch } from "react-redux";
+import { cartQuntityIncrement, cartQuntityDecrement } from "../../../features/product-cart/productCartSlice";
 
-const CartItems = ({cartItems, handleCartDelete}) => {
+const CartItems = ({ cartItems, handleCartDelete }) => {
+  const dispatch = useDispatch();
+  const quantityIncriment = (CartId) => {
+    dispatch(cartQuntityIncrement(CartId));
+  };
+  const quantityDecriment = (CartId) => {
+    dispatch(cartQuntityDecrement(CartId));
+  };
   return (
     <div className="lg:w-2/3 space-y-6">
       {cartItems?.map((item) => (
@@ -24,22 +32,27 @@ const CartItems = ({cartItems, handleCartDelete}) => {
           </div>
 
           <div className="flex items-center gap-3">
-            <button className="px-3 py-1 border border-gray-300 rounded-lg">
+            <button className="px-3 py-1 border border-gray-300 rounded-lg"
+            onClick={() => quantityDecriment(item.id)}
+            >
               -
             </button>
             <input
               type="text"
-              className="w-12 text-center border border-gray-300 rounded-lg"
-              value="0"
+              className="w-12 py-1 text-center border border-gray-300 rounded-lg"
+              value={item.quantity}
               readOnly
             />
-            <button className="px-3 py-1 border border-gray-300 rounded-lg">
+            <button
+              className="px-3 py-1 border border-gray-300 rounded-lg"
+              onClick={() => quantityIncriment(item.id)}
+            >
               +
             </button>
           </div>
 
           <div className="w-24 font-bold text-right text-gray-900">
-            ${item.price * 1}
+            ${item.price * item.quantity}
           </div>
 
           <button
