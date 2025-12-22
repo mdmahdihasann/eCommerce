@@ -85,7 +85,7 @@ export const getOrder = createAsyncThunk("order/get", async (userId) => {
   const response = await axios.get(
     `${import.meta.env.VITE_SERVER_BASE_URL}/cart/orders/${userId}`
   );
-  return response.data;
+  return response.data.orders;
 });
 
 const cartSlice = createSlice({
