@@ -2,17 +2,24 @@ import { useState } from "react";
 import { FaBars, FaSignOutAlt, FaPen, FaTrash, FaPlus } from "react-icons/fa";
 import ProductTable from "./ProductTable";
 import CreateFrom from "./CreateFrom";
-import { Link } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const [isProductPopupOpen, setIsProductPopupOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(null);
+  const { setAuth } = useAuth();
+  const Navigate = useNavigate();
 
   const handleProductEdit = (productEdit) => {
     setIsEditMode(productEdit);
     setIsProductPopupOpen(true);
+  };
+  const handleLogout = () => {
+    setAuth({});
+    Navigate("/");
   };
   return (
     <div className="flex h-screen font-sans bg-gray-100 text-gray-800">
@@ -39,38 +46,44 @@ const Dashboard = () => {
         <nav className="flex-1 p-5">
           <ul className="space-y-3">
             <li>
-              <Link
+              <NavLink
                 to="/"
-                className="flex items-center gap-4 p-2 rounded-md text-gray-600 hover:text-green-500 transition"
+                className={({ isActive }) =>
+                  `px-4 py-2 max-w-full w-full rounded-md font-medium transition-colors ${
+                    isActive
+                      ? "bg-blue-600 text-white" 
+                      : "bg-white text-gray-700 hover:bg-blue-100" 
+                  }`
+                }
               >
-                <i className="fas fa-home"></i>
-                {sidebarOpen && <span>Home</span>}
-              </Link>
+                Home
+              </NavLink>
             </li>
             <li>
-              <a
-                href="#"
-                className="flex items-center gap-4 p-2 rounded-md text-gray-600 hover:text-green-500 transition"
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  `px-4 py-2 max-w-full w-full rounded-md font-medium transition-colors ${
+                    isActive
+                      ? "bg-blue-600 text-white" 
+                      : "bg-white text-gray-700 hover:bg-blue-100" 
+                  }`
+                }
               >
-                <i className="fas fa-table"></i>
+                 <i className="fas fa-table"></i>
                 {sidebarOpen && <span>Products</span>}
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center gap-4 p-2 rounded-md text-gray-600 hover:text-green-500 transition"
-              >
-                <i className="fas fa-th"></i>
-                {sidebarOpen && <span>Cards</span>}
-              </a>
+              </NavLink>
+              
             </li>
           </ul>
         </nav>
 
         {/* Sidebar Footer */}
         <div className="p-5 border-t border-gray-200 mt-auto">
-          <button className="w-full flex items-center justify-center gap-3 p-3 rounded-md bg-red-100 hover:bg-red-200 text-red-600 transition">
+          <button
+            className="w-full flex items-center justify-center gap-3 p-3 rounded-md bg-red-100 hover:bg-red-200 text-red-600 transition"
+            onClick={handleLogout}
+          >
             <FaSignOutAlt />
             {sidebarOpen && <span>Logout</span>}
           </button>

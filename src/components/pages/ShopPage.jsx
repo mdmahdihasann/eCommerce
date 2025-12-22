@@ -5,12 +5,16 @@ import { actions } from "../../actions";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addItemToCartAPI } from "../../features/product-cart/productCartSlice";
+import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const ShopPage = () => {
   const { dispatch, state } = useProduct();
   const dispatchR = useDispatch();
+  const {auth} = useAuth();
   const [isSelect, setIsSelect] = useState("all-product");
   const [displayProduct, setDisplayProduct] = useState([]);
+  const Navigate = useNavigate();
 
   useEffect(()=>{
     if(state?.products?.length){
@@ -39,7 +43,13 @@ const ShopPage = () => {
   },[isSelect])
 
   const HandleAddCart = (item) => {
-    dispatchR(addItemToCartAPI(item));
+    if (!auth?.user?.id) {
+          Navigate('/login')
+          return;
+        }
+    
+        const userId = auth.user.id;
+        dispatchR(addItemToCartAPI({ item, userId }));
   };
 
   useEffect(() => {

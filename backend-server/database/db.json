@@ -89,22 +89,83 @@
   ],
   "cart": [
     {
-      "id": 1,
+      "id": 4,
       "productId": 3,
       "userId": "f9124399-fa61-4de0-80d8-c6521e230de7",
       "title": "Black Striped T-shirt",
       "price": 140,
       "cover": "uploads/products/image-7.png",
-      "quantity": 2
+      "quantity": 1
+    }
+  ],
+  "orders": [
+    {
+      "id": "ORD-1766332496858",
+      "userId": "f9124399-fa61-4de0-80d8-c6521e230de7",
+      "items": [
+        {
+          "productId": 8,
+          "title": "Courage Graphic T-shirt",
+          "price": 240,
+          "quantity": 1,
+          "totalPrice": 240,
+          "cover": "uploads/products/image-9-2.png"
+        },
+        {
+          "productId": 9,
+          "title": "Loose Fit Bermuda Shorts",
+          "price": 210,
+          "quantity": 1,
+          "totalPrice": 210,
+          "cover": "uploads/products/image-9.png"
+        }
+      ],
+      "subtotal": 450,
+      "shipping": 5,
+      "totalAmount": 455,
+      "paymentMethod": "cod",
+      "customer": {
+        "name": "Mahdi Hasan",
+        "phone": "01305524434",
+        "city_select": "Bhola",
+        "fullAddress": "bhola sador"
+      },
+      "status": "pending",
+      "createdAt": "2025-12-21T15:54:56.858Z"
     },
     {
-      "id": 2,
-      "productId": 5,
-      "userId": "f9124399-fa61-4de0-80d8-c6521e230de7",
-      "title": "Checkered Shirt",
-      "price": 100,
-      "cover": "uploads/products/image-8-2.png",
-      "quantity": 3
+      "id": "ORD-1766414135496",
+      "userId": "6fd3ed42-2275-4d5f-a436-e5a3bf586c56",
+      "items": [
+        {
+          "productId": 3,
+          "title": "Black Striped T-shirt",
+          "price": 140,
+          "quantity": 1,
+          "totalPrice": 140,
+          "cover": "uploads/products/image-7.png"
+        },
+        {
+          "productId": 9,
+          "title": "Loose Fit Bermuda Shorts",
+          "price": 210,
+          "quantity": 2,
+          "totalPrice": 420,
+          "cover": "uploads/products/image-9.png"
+        }
+      ],
+      "subtotal": 560,
+      "shipping": 5,
+      "totalAmount": 565,
+      "paymentMethod": "cod",
+      "customer": {
+        "name": "Sojibe",
+        "phone": "01305524434",
+        "city_select": "Bogra",
+        "fullAddress": "dhaka gonj"
+      },
+      "status": "pending",
+      "createdAt": "2025-12-22T14:35:35.498Z"
     }
   ],
   "users": [

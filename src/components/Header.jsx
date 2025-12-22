@@ -28,7 +28,7 @@ const Header = () => {
     if (auth?.user?.id) {
       dispatch(getCartItems(auth?.user?.id));
     }
-  }, []);
+  }, [auth?.user?.id, dispatch]);
   return (
     <header
       className={`bg-white/90 backdrop-blur-md sticky top-0 z-50 transition-shadow duration-300 ${
@@ -55,14 +55,14 @@ const Header = () => {
             {" "}
             On Sale{" "}
           </a>{" "}
-          <a href="#" className="hover:text-gray-600 transition-colors">
+          <Link to="/user-profile" className="hover:text-gray-600 transition-colors">
             {" "}
             New Arrivals{" "}
-          </a>{" "}
-          <a href="#" className="hover:text-gray-600 transition-colors">
+          </Link>{" "}
+          <Link to="/order-details" className="hover:text-gray-600 transition-colors">
             {" "}
             Brands{" "}
-          </a>{" "}
+          </Link>{" "}
         </nav>
 
         {/* Icons */}

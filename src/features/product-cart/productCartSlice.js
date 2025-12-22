@@ -55,10 +55,42 @@ export const cartQuntityDecrement = createAsyncThunk(
     return response.data;
   }
 );
+export const productCheckout = createAsyncThunk(
+  "cart/checkout",
+  async (userId) => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_SERVER_BASE_URL}/cart/checkout/${userId}`
+    );
+    return response.data;
+  }
+);
+
+export const productOrder = createAsyncThunk(
+  "product/orders",
+  async (payload) => {
+    const response = await axios.post(
+      `${import.meta.env.VITE_SERVER_BASE_URL}/cart/orders/`,
+      payload,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return response.data.orders;
+  }
+);
+export const getOrder = createAsyncThunk("order/get", async (userId) => {
+  const response = await axios.get(
+    `${import.meta.env.VITE_SERVER_BASE_URL}/cart/orders/${userId}`
+  );
+  return response.data;
+});
 
 const cartSlice = createSlice({
   name: "cart",
-  initialState: { items: [], isLoading: false, error: null },
+  initialState: { items: [], orders: [], isLoading: false, error: null },
   extraReducers: (builder) => {
     builder
       .addCase(addItemToCartAPI.pending, (state) => {
@@ -128,6 +160,42 @@ const cartSlice = createSlice({
         }
       })
       .addCase(cartQuntityDecrement.rejected, (state, action) => {
+        (state.isLoading = false), (state.error = action.error.message);
+      })
+
+      //checkout page
+      .addCase(productCheckout.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(productCheckout.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.items = action.payload;
+      })
+      .addCase(productCheckout.rejected, (state, action) => {
+        (state.isLoading = false), (state.error = action.error.message);
+      })
+
+      //order page
+      .addCase(productOrder.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(productOrder.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.orders.push(action.payload);
+        state.items = [];
+      })
+      .addCase(productOrder.rejected, (state, action) => {
+        (state.isLoading = false), (state.error = action.error.message);
+      })
+      //get order data
+      .addCase(getOrder.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getOrder.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.orders = action.payload
+      })
+      .addCase(getOrder.rejected, (state, action) => {
         (state.isLoading = false), (state.error = action.error.message);
       })
   },

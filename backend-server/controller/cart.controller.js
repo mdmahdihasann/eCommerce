@@ -118,10 +118,112 @@ const clearCart = (req, res) => {
   res.status(200).json({ message: "Cart cleared" });
 };
 
+//checkoutData
+const checkoutData = (req, res) => {
+  const { db } = req.app;
+  const { userId } = req.params;
+
+  const cartItems = db.get("cart").filter({ userId }).value();
+
+  if (!cartItems.length) {
+    return res.status(400).json({ message: "Cart is empty" });
+  }
+
+  const SHIPPING_COST = 5;
+
+  const subtotal = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  const total = subtotal + SHIPPING_COST;
+
+  res.status(200).json({
+    items: cartItems,
+    subtotal,
+    shipping: SHIPPING_COST,
+    total,
+  });
+};
+
+// GET USER-SPECIFIC ORDERS
+const getUserOrders = (req, res) => {
+  const { db } = req.app;
+  const { userId } = req.params;
+
+  if (!userId) {
+    return res.status(400).json({ message: "userId is required" });
+  }
+
+  const orders = db.get("orders").filter({ userId }).value() || [];
+
+  res.status(200).json({ orders });
+};
+
+// POST /orders
+const createOrder = (req, res) => {
+  const { db } = req.app;
+  const { userId, customer, paymentMethod } = req.body;
+
+  // 1️⃣ Validate userId
+  if (!userId) {
+    return res.status(400).json({ message: "User ID is required" });
+  }
+
+  // 2️⃣ Get cart items for this user
+  const cartItems = db.get("cart").filter({ userId }).value();
+  if (!cartItems.length) {
+    return res.status(400).json({ message: "Cart is empty" });
+  }
+
+  // 3️⃣ Prepare order items
+  const orderItems = cartItems.map(item => ({
+    productId: item.productId,
+    title: item.title,
+    price: item.price, 
+    quantity: item.quantity,
+    totalPrice: item.price * item.quantity,
+    cover: item.cover
+  }));
+
+  // 4️⃣ Price calculations
+  const SHIPPING_COST = 5;
+  const subtotal = orderItems.reduce((sum, item) => sum + item.totalPrice, 0);
+  const totalAmount = subtotal + SHIPPING_COST;
+
+  // 5️⃣ Create order object
+  const order = {
+    id: "ORD-" + Date.now(),
+    userId,
+    items: orderItems,
+    subtotal,
+    shipping: SHIPPING_COST,
+    totalAmount,
+    paymentMethod,
+    customer, // form data: { name, phone, city, address }
+    status: "pending",
+    createdAt: new Date().toISOString()
+  };
+
+  // 6️⃣ Save order & clear cart
+  db.get("orders").push(order).write();
+  db.get("cart").remove({ userId }).write();
+
+  // 7️⃣ Return response
+  res.status(201).json({
+    message: "Order placed successfully",
+    order
+  });
+};
+
+
 module.exports.CartController = {
   getCart,
   addToCart,
   updateQuantity,
   removeItem,
   clearCart,
+  checkoutData,
+  getUserOrders,
+  createOrder,
 };

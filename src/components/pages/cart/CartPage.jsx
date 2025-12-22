@@ -9,12 +9,15 @@ import { useEffect } from "react";
 import { useAuth } from "../../../hooks/useAuth";
 
 const CartPage = () => {
-  const cartItems = useSelector((state) => state.cart.items);
+  const cartItems = useSelector((state) => state.cart.items || []);
   const isLoading = useSelector((state) => state.cart.isLoading);
   const { auth } = useAuth();
   const dispatch = useDispatch();
 
-  const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const subtotal = cartItems.length > 0 
+  ? cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0) 
+  : 0;
+
 
   useEffect(() => {
     if (auth?.user?.id) {
