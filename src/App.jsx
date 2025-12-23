@@ -10,6 +10,10 @@ import CartPage from "./components/pages/cart/CartPage";
 import Checkout from "./components/pages/cart/checkout/Checkout";
 import OrderDetails from "./components/pages/cart/orders/OrderDetails";
 import UserProfile from "./components/pages/profile/UserProfile";
+import Home from "./dashboard/Home";
+import ProductPage from "./dashboard/ProductPage";
+import Orders from "./dashboard/Orders";
+import Users from "./dashboard/Users";
 
 
 function App() {
@@ -27,7 +31,12 @@ function App() {
         <Route path="/order-success" element={<OrderDetails/>}/>
         <Route path="/user-profile" element={<UserProfile/>}/>
       </Route>
-      <Route path="/dashboard" element={<Dashboard/>}/>
+      <Route element={<Dashboard/>}>
+        <Route path="/dashboard" element={<Home/>}/>
+        <Route path="/product" element={<ProductPage/>}/>
+        <Route path="/orders" element={<Orders/>}/>
+        <Route path="/user" element={<Users/>}/>
+      </Route>
       <Route path="/login" element={<LoginPage/>}/>
       <Route path="/register" element={<RegisterPage/>}/>
     </Routes>
