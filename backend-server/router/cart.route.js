@@ -6,6 +6,10 @@ router.get("/checkout/:userId", CartController.checkoutData);
 router.post("/orders", CartController.createOrder);
 router.get("/orders/:userId", CartController.getUserOrders);
 
+//admin route
+router.get("/orders", CartController.getAllOrders);
+router.put("/orders/:orderId/status", CartController.updateOrderStatus);
+
 // generic routes
 router.get("/", CartController.getCart);
 router.post("/", CartController.addToCart);

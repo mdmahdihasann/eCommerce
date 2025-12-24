@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useAxios } from "../hooks/useAxios";
 import { useProduct } from "../hooks/useProduct";
 import { actions } from "../actions";
-import { FaPen, FaTrash } from "react-icons/fa";
+import { HiOutlinePencilAlt } from "react-icons/hi";
+import { RiDeleteBin4Line } from "react-icons/ri";
 
 const ProductTable = ({onProductEdit}) => {
   const { api } = useAxios();
@@ -15,7 +16,6 @@ const ProductTable = ({onProductEdit}) => {
         const response = await api.get(
           `${import.meta.env.VITE_SERVER_BASE_URL}/products`
         );
-        console.log(response.data);
 
         if (response.status === 200) {
           dispatch({
@@ -76,12 +76,12 @@ const ProductTable = ({onProductEdit}) => {
             <td className="px-6 py-3">{p.rating}</td>
             <td className="px-6 py-3">{p.stock}</td>
             <td className="px-6 py-3">${p.price}</td>
-            <td className="px-6 py-3 flex gap-3">
-              <button className="text-blue-500 hover:text-blue-700 transition" onClick={()=>onProductEdit(p)}>
-                <FaPen size={16} />
+            <td className="px-6 py-3 items-center mx-h-[100%]">
+              <button className="text-blue-500 hover:text-blue-700 transition p-[6px] w-[30px] h-[30px] text-center rounded-md bg-green-200 hover:bg-green-300 mr-2" onClick={()=>onProductEdit(p)}>
+                <HiOutlinePencilAlt size={18} />
               </button>
-              <button className="text-red-500 hover:text-red-700 transition" onClick={()=>handleDelete(p.id)}>
-                <FaTrash size={16} />
+              <button className="text-red-500 hover:text-red-700 transition p-[6px] w-[30px] h-[30px] text-center rounded-md bg-red-200 hover:bg-red-300" onClick={()=>handleDelete(p.id)}>
+                <RiDeleteBin4Line size={18} />
               </button>
             </td>
           </tr>

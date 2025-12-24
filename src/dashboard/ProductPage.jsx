@@ -1,7 +1,9 @@
 import { FaBars, FaSignOutAlt, FaPen, FaTrash, FaPlus } from "react-icons/fa";
+
 import ProductTable from "./ProductTable";
 import { useState } from "react";
 import CreateFrom from "./CreateFrom";
+
 const ProductPage = () => {
   const [isEditMode, setIsEditMode] = useState(null);
   const [isProductPopupOpen, setIsProductPopupOpen] = useState(false);

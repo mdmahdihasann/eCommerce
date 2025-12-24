@@ -88,6 +88,25 @@ export const getOrder = createAsyncThunk("order/get", async (userId) => {
   return response.data.orders;
 });
 
+export const getAllOrder = createAsyncThunk("all/order/get", async () => {
+  const response = await axios.get(
+    `${import.meta.env.VITE_SERVER_BASE_URL}/cart/orders/`
+  );
+  return response.data.orders;
+});
+
+export const orderStatusUpdated = createAsyncThunk(
+  "order/status/updated",
+  async ({ orderId, status }) => {
+    const response = await axios.put(
+      `${import.meta.env.VITE_SERVER_BASE_URL}/cart/orders/${orderId}/status`,
+      { status },
+      { headers: { "Content-Type": "application/json" } }
+    );
+    return response.data.order;
+  }
+);
+
 const cartSlice = createSlice({
   name: "cart",
   initialState: { items: [], orders: [], isLoading: false, error: null },
@@ -193,11 +212,40 @@ const cartSlice = createSlice({
       })
       .addCase(getOrder.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.orders = action.payload
+        state.orders = action.payload;
       })
       .addCase(getOrder.rejected, (state, action) => {
         (state.isLoading = false), (state.error = action.error.message);
       })
+
+      //get All order data
+      .addCase(getAllOrder.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllOrder.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.orders = action.payload;
+      })
+      .addCase(getAllOrder.rejected, (state, action) => {
+        (state.isLoading = false), (state.error = action.error.message);
+      })
+
+      //updated status admin
+      .addCase(orderStatusUpdated.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(orderStatusUpdated.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const updatedOrder = action.payload; 
+        if (!updatedOrder) return; 
+        const index = state.orders.findIndex((o) => o.id === updatedOrder.id);
+        if (index !== -1)
+          state.orders[index] = { ...state.orders[index], ...updatedOrder };
+      })
+
+      .addCase(orderStatusUpdated.rejected, (state, action) => {
+        (state.isLoading = false), (state.error = action.error.message);
+      });
   },
 });
 

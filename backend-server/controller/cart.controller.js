@@ -159,6 +159,13 @@ const getUserOrders = (req, res) => {
 
   res.status(200).json({ orders });
 };
+const getAllOrders = (req, res) => {
+  const { db } = req.app;
+
+  const orders = db.get("orders").value() || [];
+
+  res.status(200).json({ orders });
+};
 
 // POST /orders
 const createOrder = (req, res) => {
@@ -177,13 +184,13 @@ const createOrder = (req, res) => {
   }
 
   // 3️⃣ Prepare order items
-  const orderItems = cartItems.map(item => ({
+  const orderItems = cartItems.map((item) => ({
     productId: item.productId,
     title: item.title,
-    price: item.price, 
+    price: item.price,
     quantity: item.quantity,
     totalPrice: item.price * item.quantity,
-    cover: item.cover
+    cover: item.cover,
   }));
 
   // 4️⃣ Price calculations
@@ -202,7 +209,7 @@ const createOrder = (req, res) => {
     paymentMethod,
     customer, // form data: { name, phone, city, address }
     status: "pending",
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
   };
 
   // 6️⃣ Save order & clear cart
@@ -212,10 +219,53 @@ const createOrder = (req, res) => {
   // 7️⃣ Return response
   res.status(201).json({
     message: "Order placed successfully",
-    order
+    order,
   });
 };
 
+// PUT /orders/:orderId/status
+const updateOrderStatus = (req, res) => {
+  const { db } = req.app;
+  const { orderId } = req.params;
+  let { status } = req.body;
+
+  // 1️⃣ Make sure status is string
+  if (!status || typeof status !== "string") {
+    return res.status(400).json({ message: "Status is required" });
+  }
+
+  // 2️⃣ Clean status (trim + lowercase)
+  status = status.toLowerCase().trim();
+
+  // 3️⃣ Allowed statuses
+  const allowedStatus = ["pending", "complete", "cancelled"];
+
+  if (!allowedStatus.includes(status)) {
+    return res.status(400).json({ message: "Invalid order status" });
+  }
+
+  // 4️⃣ Find order
+  const order = db.get("orders").find({ id: orderId }).value();
+  if (!order) {
+    return res.status(404).json({ message: "Order not found" });
+  }
+
+  // 5️⃣ Update status
+  db.get("orders")
+    .find({ id: orderId })
+    .assign({
+      status,
+      updatedAt: new Date().toISOString(),
+    })
+    .write();
+
+  // 6️⃣ Send response
+  res.json({
+    message: "Order status updated successfully",
+    orderId,
+    status,
+  });
+};
 
 module.exports.CartController = {
   getCart,
@@ -226,4 +276,6 @@ module.exports.CartController = {
   checkoutData,
   getUserOrders,
   createOrder,
+  getAllOrders,
+  updateOrderStatus,
 };

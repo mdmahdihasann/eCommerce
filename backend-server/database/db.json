@@ -117,8 +117,52 @@
         "city_select": "Bagerhat",
         "fullAddress": "sfgsdaf"
       },
-      "status": "pending",
-      "createdAt": "2025-12-22T15:24:15.513Z"
+      "status": "complete",
+      "createdAt": "2025-12-22T15:24:15.513Z",
+      "updatedAt": "2025-12-24T19:01:33.753Z"
+    },
+    {
+      "id": "ORD-1766603226916",
+      "userId": "6fd3ed42-2275-4d5f-a436-e5a3bf586c56",
+      "items": [
+        {
+          "productId": 8,
+          "title": "Courage Graphic T-shirt",
+          "price": 240,
+          "quantity": 3,
+          "totalPrice": 720,
+          "cover": "uploads/products/image-9-2.png"
+        },
+        {
+          "productId": 9,
+          "title": "Loose Fit Bermuda Shorts",
+          "price": 210,
+          "quantity": 2,
+          "totalPrice": 420,
+          "cover": "uploads/products/image-9.png"
+        },
+        {
+          "productId": 10,
+          "title": "ki bolo tai na",
+          "price": 600,
+          "quantity": 2,
+          "totalPrice": 1200,
+          "cover": "uploads/products/cover-1765736764992-69594855.png"
+        }
+      ],
+      "subtotal": 2340,
+      "shipping": 5,
+      "totalAmount": 2345,
+      "paymentMethod": "cod",
+      "customer": {
+        "name": "Rakib Khan",
+        "phone": "01890474002",
+        "city_select": "Bhola",
+        "fullAddress": "Nasir maji bhola sador bhola"
+      },
+      "status": "complete",
+      "createdAt": "2025-12-24T19:07:06.916Z",
+      "updatedAt": "2025-12-24T19:08:02.025Z"
     }
   ],
   "users": [

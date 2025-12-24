@@ -4,7 +4,7 @@ import { RxDashboard } from "react-icons/rx";
 import { BsArchive } from "react-icons/bs";
 import { MdReceiptLong } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
-import { NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import { PiArrowFatLinesLeftFill } from "react-icons/pi";
 import { PiArrowFatLinesRightFill } from "react-icons/pi";
 
@@ -102,6 +102,9 @@ const Dashboard = () => {
                   <span className="flex items-center">Customer</span>
                 )}
               </NavLink>
+            </li>
+            <li>
+              <Link to={"/"}>Home</Link>
             </li>
           </ul>
         </nav>
