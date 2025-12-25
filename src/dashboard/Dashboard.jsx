@@ -103,9 +103,6 @@ const Dashboard = () => {
                 )}
               </NavLink>
             </li>
-            <li>
-              <Link to={"/"}>Home</Link>
-            </li>
           </ul>
         </nav>
 

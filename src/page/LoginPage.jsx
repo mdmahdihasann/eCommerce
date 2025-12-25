@@ -19,15 +19,19 @@ const LoginPage = () => {
         `${import.meta.env.VITE_SERVER_BASE_URL}/auth/login`,
         formData
       );
-
+      console.log(response.data);
+      
       if (response.status == 200) {
         const { user, token } = response.data;
         if (token) {
           const authToken = token.token;
           const refreshToken = token.refreshToken;
           setAuth({ user, authToken, refreshToken });
-          {authToken && navigate("/dashboard")}
-          
+          if (user?.role === "admin") {
+            navigate("/dashboard");
+          } else {
+            navigate("/");
+          }
         }
       }
     } catch (error) {

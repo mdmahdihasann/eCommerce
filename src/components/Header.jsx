@@ -57,14 +57,14 @@ const Header = () => {
             On Sale{" "}
           </a>{" "}
           <Link
-            to="/user-profile"
+            to="#"
             className="hover:text-gray-600 transition-colors"
           >
             {" "}
             New Arrivals{" "}
           </Link>{" "}
           <Link
-            to="/order-details"
+            to="#"
             className="hover:text-gray-600 transition-colors"
           >
             {" "}

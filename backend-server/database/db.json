@@ -117,9 +117,9 @@
         "city_select": "Bagerhat",
         "fullAddress": "sfgsdaf"
       },
-      "status": "complete",
+      "status": "cancelled",
       "createdAt": "2025-12-22T15:24:15.513Z",
-      "updatedAt": "2025-12-24T19:01:33.753Z"
+      "updatedAt": "2025-12-25T08:52:24.275Z"
     },
     {
       "id": "ORD-1766603226916",
@@ -173,7 +173,8 @@
       "lastName": "Hasan",
       "avatar": "uploads/avatar/avatar-1708849386635-121791126.png",
       "email": "saadh392@mail.com",
-      "bio": "Saad is an excellent member of LWS who keeps himself updated with technology and stays relevant. He is a tech enthusiast and does not hesitate to help developers in need."
+      "bio": "Saad is an excellent member of LWS who keeps himself updated with technology and stays relevant.",
+      "role": "user"
     },
     {
       "id": "1aeef0f0-77ba-456b-8b5b-d4145a9b5410",
@@ -181,7 +182,8 @@
       "firstName": "Sumit",
       "lastName": "Saha",
       "avatar": "uploads/avatar/avatar-1708777668890-622477379.png",
-      "email": "sumitsaha@learnwithsumit.com"
+      "email": "sumitsaha@learnwithsumit.com",
+      "role": "user"
     },
     {
       "id": "8fc0f0d6-396a-4ef4-922b-27ef5b4e8526",
@@ -190,7 +192,8 @@
       "lastName": "Adhikary",
       "avatar": "uploads/avatar/avatar-1708770640883-148182382.png",
       "email": "atapas@email.com",
-      "bio": "A Ghost"
+      "bio": "A Ghost",
+      "role": "user"
     },
     {
       "id": "ea168626-058e-49dd-b23c-3000e7bd0172",
@@ -198,7 +201,8 @@
       "firstName": "Akash",
       "lastName": "Ahmed",
       "avatar": "uploads/avatar/akash.png",
-      "email": "akash@email.com"
+      "email": "akash@email.com",
+      "role": "user"
     },
     {
       "id": "ea168626-058e-49dd-b23c-3000e7bd0173",
@@ -206,7 +210,8 @@
       "firstName": "MD",
       "lastName": "Salahuddin",
       "avatar": "uploads/avatar/607270927370289259_n.jpg",
-      "email": "salahuddin@email.com"
+      "email": "salahuddin@email.com",
+      "role": "user"
     },
     {
       "id": "8fea109f-9c4a-45de-8b53-9b6a9a386e02",
@@ -215,7 +220,8 @@
       "lastName": "Bony",
       "avatar": "uploads/avatar/avatar-1708802845791-219561000.png",
       "email": "rambo@email.com",
-      "bio": "I am Rambo!!!"
+      "bio": "I am Rambo!!!",
+      "role": "user"
     },
     {
       "id": "f9124399-fa61-4de0-80d8-c6521e230de7",
@@ -223,7 +229,8 @@
       "firstName": "Mahdi",
       "lastName": "Hasan",
       "avatar": null,
-      "email": "sojibe@gmail.com"
+      "email": "sojibe@gmail.com",
+      "role": "admin"
     }
   ]
 }

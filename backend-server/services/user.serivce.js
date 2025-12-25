@@ -3,6 +3,7 @@ const getNewTokens = require("../util/getNewTokens");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 
+/* ================= LOGIN ================= */
 const login = async (email, password, db) => {
   const user = db.get("users").find({ email }).value();
 
@@ -10,7 +11,7 @@ const login = async (email, password, db) => {
     throw new Error("User not found");
   }
 
-  const isPasswordCorrect = await bcrypt.compareSync(password, user.password);
+  const isPasswordCorrect = bcrypt.compareSync(password, user.password);
 
   if (!isPasswordCorrect) {
     throw new Error("Invalid password");
@@ -18,7 +19,7 @@ const login = async (email, password, db) => {
 
   const tokens = getNewTokens(user);
 
-  let userObj = Object.assign({}, user);
+  let userObj = { ...user };
   delete userObj.password;
 
   return {
@@ -27,11 +28,11 @@ const login = async (email, password, db) => {
   };
 };
 
+/* ================= REGISTER ================= */
 const register = (reqBody, db) => {
   const { email, password, firstName, lastName } = reqBody;
 
   const user = db.get("users").find({ email }).value();
-
   if (user) {
     throw new Error("User already exists");
   }
@@ -40,11 +41,13 @@ const register = (reqBody, db) => {
 
   const newUser = {
     id: crypto.randomUUID({ disableEntropyCache: true }),
-    password: hashedPassword,
     firstName,
     lastName,
-    avatar: null,
     email,
+    password: hashedPassword,
+    avatar: null,
+    role: "user", // 🔥 DEFAULT ROLE
+    createdAt: new Date().toISOString(),
   };
 
   db.get("users").push(newUser).write();
@@ -59,28 +62,45 @@ const register = (reqBody, db) => {
   };
 };
 
+/* ================= REFRESH TOKEN ================= */
 const refreshToken = async (refreshToken, db) => {
-  // check if refresh token valid
-  const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET_KEY);
+  const decoded = jwt.verify(
+    refreshToken,
+    process.env.REFRESH_SECRET_KEY
+  );
 
   if (!decoded) {
     throw new Error("Invalid refresh token");
   }
 
-  // check if user exists
   const user = db.get("users").find({ id: decoded.id }).value();
-
   if (!user) {
     throw new Error("User not found");
   }
 
-  const token = getNewTokens(user);
+  return getNewTokens(user);
+};
 
-  return token;
+/* ================= ADMIN: GET ALL USERS ================= */
+const getAllUsers = (db) => {
+  const users = db.get("users").value();
+
+  return {
+    total: users.length,
+    users: users.map((u) => ({
+      id: u.id,
+      firstName: u.firstName,
+      lastName: u.lastName,
+      email: u.email,
+      role: u.role,
+      createdAt: u.createdAt,
+    })),
+  };
 };
 
 module.exports.UserService = {
   login,
   register,
   refreshToken,
+  getAllUsers, // 🔥 NEW
 };
