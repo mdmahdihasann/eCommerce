@@ -1,17 +1,22 @@
 import { useState } from "react";
 import Rating from "./Rating";
+import toast from "react-hot-toast";
+import { useAuth } from "../hooks/useAuth";
 
-
-const ProductCart = ({item, addToCart, onHandleDelete}) => {
+const ProductCart = ({ item, addToCart, onHandleDelete }) => {
   const [inCart, setInCart] = useState(false);
+  const { auth } = useAuth();
 
-  function handleAdd(item){
+  function handleAdd(item) {
     addToCart(item);
-    setInCart(true)
+    setInCart(true);
+    if (auth?.user?.id) {
+      toast.success("Cart Added");
+    }
   }
-  function handleDelete(itemId){
+  function handleDelete(itemId) {
     onHandleDelete(itemId);
-    setInCart(false)
+    setInCart(false);
   }
   return (
     <div className="bg-gray-100 rounded-lg overflow-hidden transition-transform hover:scale-[1.02] duration-300">
@@ -27,18 +32,30 @@ const ProductCart = ({item, addToCart, onHandleDelete}) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center my-1">
             <div className="flex">
-              <Rating rating={item.rating}/>
+              <Rating rating={item.rating} />
             </div>
             <span className="text-xs text-gray-500 ml-1">{item.rating}/5</span>
           </div>
           <span className="text-xs text-gray-700">({item.stock} pcs left)</span>
         </div>
         <p className="font-bold">${item.price} </p>
-        {
-          inCart ? (<button disabled={item.stock === 0} className="w-full mt-2 bg-red-800 py-1 text-gray-100 rounded flex items-center justify-center" onClick={()=> handleDelete(item.id)}>
-          Remove from Cart
-        </button> ): (<button disabled={item.stock === 0} onClick={()=> handleAdd(item)} class="disabled:bg-gray-700 disabled:text-gray-400 disabled:cursor-not-allowed w-full mt-2 bg-gray-800 py-1 text-gray-100 rounded flex items-center justify-center active:translate-y-1 transition-all active:bg-gray-900">Add to Cart</button>)
-        }
+        {inCart ? (
+          <button
+            disabled={item.stock === 0}
+            className="w-full mt-2 bg-red-800 py-1 text-gray-100 rounded flex items-center justify-center"
+            onClick={() => handleDelete(item.id)}
+          >
+            Remove from Cart
+          </button>
+        ) : (
+          <button
+            disabled={item.stock === 0}
+            onClick={() => handleAdd(item)}
+            class="disabled:bg-gray-700 disabled:text-gray-400 disabled:cursor-not-allowed w-full mt-2 bg-gray-800 py-1 text-gray-100 rounded flex items-center justify-center active:translate-y-1 transition-all active:bg-gray-900"
+          >
+            Add to Cart
+          </button>
+        )}
       </div>
     </div>
   );

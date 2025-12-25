@@ -7,6 +7,8 @@ import CartItems from "./CartItems";
 import OrderSummary from "./OrderSummary";
 import { useEffect } from "react";
 import { useAuth } from "../../../hooks/useAuth";
+import toast from "react-hot-toast";
+import Loader from "../../Loader";
 
 const CartPage = () => {
   const cartItems = useSelector((state) => state.cart.items || []);
@@ -27,10 +29,10 @@ const CartPage = () => {
 
   const handleCartDelete = (cartId) => {
     dispatch(cartItemsDelete(cartId));
+    toast.error("Items Deleted");
   };
-  if (isLoading) {
-    return <div>data Loading....</div>;
-  }
+  
+  if (isLoading) return <div><Loader/></div>;
 
   return (
     <div className="min-h-screen py-12 px-4 font-outfit">
@@ -53,7 +55,7 @@ const CartPage = () => {
           )}
 
           {/* Summary */}
-          <OrderSummary subtotal={subtotal} />
+          <OrderSummary subtotal={subtotal} cartItems={cartItems}/>
         </div>
       </div>
     </div>

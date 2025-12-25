@@ -4,6 +4,7 @@ import { useAxios } from "../hooks/useAxios";
 import { useProduct } from "../hooks/useProduct";
 import { actions } from "../actions";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const CreateForm = ({ setIsProductPopupOpen, onEditMode }) => {
   const { api } = useAxios();
@@ -51,13 +52,14 @@ const CreateForm = ({ setIsProductPopupOpen, onEditMode }) => {
         if (response.status === 201) {
           dispatch({ type: actions.products.DATA_CREATE, data: response.data });
           setIsProductPopupOpen(false);
+          toast.success("Product Added Successfully");
         }
       } else {
         const response = await api.put(
           `${import.meta.env.VITE_SERVER_BASE_URL}/products/${onEditMode.id}`,
           data
         );
-        
+
         if (response.status === 200) {
           dispatch({
             type: actions.products.DATA_UPDATED,
@@ -66,6 +68,7 @@ const CreateForm = ({ setIsProductPopupOpen, onEditMode }) => {
         }
         setIsProductPopupOpen(false);
         reset();
+        toast.success("Product Updated Successfully");
       }
     } catch (error) {
       dispatch({
@@ -81,7 +84,10 @@ const CreateForm = ({ setIsProductPopupOpen, onEditMode }) => {
         <h3 className="text-xl font-bold mb-4 text-gray-800">
           {isAdd ? "Add New Product" : "Update Product"}
         </h3>
-        <form className="flex flex-col gap-3" onSubmit={handleSubmit(handleFormData)}>
+        <form
+          className="flex flex-col gap-3"
+          onSubmit={handleSubmit(handleFormData)}
+        >
           <Field htmlFor="title" error={errors.title}>
             <input
               {...register("title", { required: "The required field" })}

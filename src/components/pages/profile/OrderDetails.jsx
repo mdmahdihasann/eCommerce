@@ -22,7 +22,7 @@ const OrderDetails = ({ activeTab }) => {
           </h2>
           {orderData?.length > 0
             ? orderData?.map((data) => (
-                <div className="space-y-4">
+                <div className="space-y-4 mb-4">
                   {/* Single Order */}
                   <div className="p-4 bg-gray-50 border border-gray-200 rounded-md">
                     <p className="font-medium text-gray-800">
@@ -32,7 +32,7 @@ const OrderDetails = ({ activeTab }) => {
                     <p className="mt-1 font-semibold text-gray-800">
                       Total: ${data?.totalAmount}
                     </p>
-                    <p className="text-yellow-600 font-semibold mt-1">
+                    <p className={`${data?.status === "complete" ? "text-green-700" : "text-yellow-300" } font-semibold mt-1 capitalize`}>
                       Status: {data?.status}
                     </p>
                   </div>

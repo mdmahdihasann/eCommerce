@@ -86,6 +86,7 @@ const Payment = () => {
                 type="radio"
                 name="paymentMethod"
                 value="cod"
+                checked
                 className="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500"
               />
               <span>Cash on Delivery</span>

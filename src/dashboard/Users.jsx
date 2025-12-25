@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import axios from "axios";
+import Loader from "../components/Loader";
 
 const Users = () => {
   const { auth } = useAuth();
@@ -29,7 +30,7 @@ const Users = () => {
     };
     featchUser();
   }, []);
-  if (loading) return <div>Loading users...</div>;
+  if (loading) return <div><Loader/></div>;
   if (error) return <div className="text-red-600">{error}</div>;
 
   return (

@@ -5,15 +5,17 @@ import { useEffect } from "react";
 import { useProduct } from "../../hooks/useProduct";
 import { actions } from "../../actions";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addItemToCartAPI,
   removeItem,
 } from "../../features/product-cart/productCartSlice";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import Loader from "../Loader";
 
 const HomePage = () => {
+  const isLoading = useSelector((state) => state.cart.isLaoding);
   const { auth } = useAuth();
   const { dispatch, state } = useProduct();
   const Navigate = useNavigate();
@@ -22,7 +24,7 @@ const HomePage = () => {
 
   const HandleAddCart = (item) => {
     if (!auth?.user?.id) {
-      Navigate('/login')
+      Navigate("/login");
       return;
     }
 
@@ -56,7 +58,18 @@ const HomePage = () => {
     };
     getProductData();
   }, []);
-
+  if (isLoading)
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
+  if (state?.loading)
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
   return (
     <div>
       <HeroSection />

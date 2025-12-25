@@ -1,7 +1,9 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { cartQuntityIncrement, cartQuntityDecrement } from "../../../features/product-cart/productCartSlice";
+import Loader from "../../Loader";
 
 const CartItems = ({ cartItems, handleCartDelete }) => {
+  const isLoading = useSelector((state)=> state.cart.isLaoding)
   const dispatch = useDispatch();
   const quantityIncriment = (CartId) => {
     dispatch(cartQuntityIncrement(CartId));
@@ -9,6 +11,7 @@ const CartItems = ({ cartItems, handleCartDelete }) => {
   const quantityDecriment = (CartId) => {
     dispatch(cartQuntityDecrement(CartId));
   };
+  if (isLoading) return <div><Loader/></div>;
   return (
     <div className="lg:w-2/3 space-y-6">
       {cartItems?.map((item) => (

@@ -6,11 +6,13 @@ import {
   orderStatusUpdated,
 } from "../features/product-cart/productCartSlice";
 import OrderCustomerDetails from "./OrderCustomerDetails";
+import Loader from "../components/Loader";
 
 const Orders = () => {
   const [detailsPopup, setDetailsPopup] = useState(false);
   const [customerData, setCustomerData] = useState();
   const orderData = useSelector((state) => state.cart.orders);
+  const isLoading = useSelector((state) => state.cart.isLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,7 +27,7 @@ const Orders = () => {
     setCustomerData(CustomerData);
     setDetailsPopup(true);
   };
-
+  if (isLoading) return <div><Loader/></div>;
   return (
     <div>
       <aside className="w-[100%] flex justify-between items-center px-6 min-h-[73px] bg-white border-l border-b">

@@ -14,14 +14,13 @@ import Home from "./dashboard/Home";
 import ProductPage from "./dashboard/ProductPage";
 import Orders from "./dashboard/Orders";
 import Users from "./dashboard/Users";
+import { Toaster } from "react-hot-toast";
 
 
 function App() {
-  
-  
-
   return (
     <>
+    <Toaster position="top-center" reverseOrder={false} />
     <Routes>
       <Route element={<Frontend/>}>
         <Route path="/" element={<HomePage/>}/>

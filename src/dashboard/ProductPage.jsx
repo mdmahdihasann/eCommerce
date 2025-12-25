@@ -1,4 +1,4 @@
-import { FaBars, FaSignOutAlt, FaPen, FaTrash, FaPlus } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 
 import ProductTable from "./ProductTable";
 import { useState } from "react";

@@ -4,6 +4,7 @@ import BillingDetails from "./BillingDetails";
 import Payment from "./Payment";
 import { productOrder } from "../../../../features/product-cart/productCartSlice";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Checkout = () => {
   const { auth } = useAuth();
@@ -26,9 +27,10 @@ const Checkout = () => {
 
       dispatch(productOrder(payload));
       navigate(`/order-success`)
+      toast.success("Order Successfully")
     } catch (error) {
       console.log(error.message);
-      
+      toast.error("Order Faild")
     }
   };
 

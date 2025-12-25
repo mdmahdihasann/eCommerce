@@ -4,6 +4,8 @@ import { useProduct } from "../hooks/useProduct";
 import { actions } from "../actions";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import { RiDeleteBin4Line } from "react-icons/ri";
+import toast from "react-hot-toast";
+import Loader from "../components/Loader";
 
 const ProductTable = ({onProductEdit}) => {
   const { api } = useAxios();
@@ -40,13 +42,14 @@ const ProductTable = ({onProductEdit}) => {
       const response = await api.delete(`${import.meta.env.VITE_SERVER_BASE_URL}/products/${delteId}`)
       if(response.status === 200){
         dispatch({type: actions.products.DATA_DELETE, data: delteId})
+        toast.success("Deleted Successfully")
       }
     } catch (error) {
       dispatch({type: actions.products.DATA_FETCH_ERROR, error: error.message})
     }
   }
 
-  if (state?.loading) return <div>Weating for data....</div>;
+  if (state?.loading) return <div><Loader/></div>;
   if (state?.error) return <div>Error in fatching posts {state?.error}</div>;
   return (
     <table className="min-w-full divide-y divide-gray-200">

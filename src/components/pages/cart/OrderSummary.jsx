@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const OrderSummary = ({ subtotal }) => {
+const OrderSummary = ({ subtotal, cartItems }) => {
   const Total = subtotal + 5;
   return (
     <div className="lg:w-1/3 bg-white p-8 rounded-3xl border border-gray-200">
@@ -24,7 +24,7 @@ const OrderSummary = ({ subtotal }) => {
 
       <div className="pt-4 text-center">
         <Link
-          to="/checkout"
+          to={`${cartItems.length > 0 ? "/checkout" : "/"}`}
           className="px-5 bg-blue-600 text-white py-3 rounded-3xl font-semibold"
         >
           Proceed to Checkout

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useAuth } from '../../../hooks/useAuth'
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const Logout = ({activeTab}) => {
   const {setAuth} = useAuth();
@@ -8,6 +9,7 @@ const Logout = ({activeTab}) => {
   const logOut = () =>{
     setAuth({})
     navigate('/')
+    toast.success("Logout Successfully")
   }
   return (
     <>

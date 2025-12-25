@@ -10,6 +10,9 @@ import UserImage from "../assets/profile/DoctorYunus.png";
 import { IoIosArrowDown } from "react-icons/io";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllOrder } from "../features/product-cart/productCartSlice";
+import axios from "axios";
 
 // Reusable StatCard
 const StatCard = ({
@@ -63,14 +66,58 @@ const StatCard = ({
 const Home = () => {
   const [mode, setMode] = useState(false);
   const [open, setOpen] = useState(false);
-  const {auth, setAuth} = useAuth();
-    const Navigate = useNavigate();
+  const totalOrders = useSelector((state) => state.cart.orders);
+  const dispatch = useDispatch();
+  const { auth, setAuth } = useAuth();
+  const [user, setUser] = useState([]);
+  const Navigate = useNavigate();
   const handleLogout = () => {
     setAuth({});
     Navigate("/");
   };
 
-   // Load saved theme
+  // toal seles
+  useEffect(() => {
+    dispatch(getAllOrder());
+  }, []);
+  const totalItems = totalOrders.reduce((acc, order) => {
+    if (order.status === "complete") {
+      const orderQuantity = order.items.reduce(
+        (sum, item) => sum + item.quantity,
+        0
+      );
+      return acc + orderQuantity;
+    }
+
+    return acc;
+  }, 0);
+
+  //total Earning
+  const TotalEarning = totalOrders.reduce((acc, order) => {
+    if (order.status === "complete") {
+      return acc + order.totalAmount;
+    }
+    return acc;
+  }, 0);
+
+  //total user
+  useEffect(() => {
+    const featchUser = async () => {
+      const response = await axios.get(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/auth/all-user`,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.authToken}`,
+          },
+        }
+      );
+      setUser(response.data.users);
+    };
+
+    featchUser();
+  }, []);
+
+  // Load saved theme
   useEffect(() => {
     const saved = localStorage.getItem("theme");
     if (saved === "dark") {
@@ -90,7 +137,6 @@ const Home = () => {
     setMode(!mode);
   };
 
-
   return (
     <div className="relative bg-gray-100 text-gray-800">
       <aside className="w-[100%] flex justify-between items-center px-6 min-h-[73px] bg-white border-l border-b">
@@ -105,7 +151,10 @@ const Home = () => {
           </button>
 
           <div>
-            <div className="flex items-center cursor-pointer gap-2" onClick={()=>setOpen(!open)}>
+            <div
+              className="flex items-center cursor-pointer gap-2"
+              onClick={() => setOpen(!open)}
+            >
               <img
                 src={UserImage}
                 className="w-[40px] h-auto rounded-lg"
@@ -115,7 +164,9 @@ const Home = () => {
                 <p className="text-lg font-medium text-gray-800">
                   {auth?.user?.firstName} {auth?.user?.lastName}
                 </p>
-                <span><IoIosArrowDown/></span> 
+                <span>
+                  <IoIosArrowDown />
+                </span>
               </div>
             </div>
 
@@ -127,7 +178,10 @@ const Home = () => {
                   </p>
                   <p className="text-xs text-gray-500">Admin</p>
                 </div>
-                <button onClick={handleLogout} className="w-full rounded-lg text-center px-4 py-2 text-sm hover:bg-red-200 bg-red-100 text-red-600">
+                <button
+                  onClick={handleLogout}
+                  className="w-full rounded-lg text-center px-4 py-2 text-sm hover:bg-red-200 bg-red-100 text-red-600"
+                >
                   Logout
                 </button>
               </div>
@@ -141,8 +195,8 @@ const Home = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <StatCard
             title="Total Sales"
-            value="$643,826"
-            change="85.5%"
+            value={totalItems}
+            change={"85.5%"}
             changeType="up"
             icon={<AiOutlineDollar />}
             iconColor="text-white"
@@ -150,7 +204,7 @@ const Home = () => {
           />
           <StatCard
             title="Total User"
-            value="5000"
+            value={user.length}
             change="85.5%"
             changeType="in"
             icon={<FaRegUser />}
@@ -159,7 +213,7 @@ const Home = () => {
           />
           <StatCard
             title="Total Earning"
-            value="15,000K"
+            value={`$${TotalEarning}`}
             change="85.5%"
             changeType="in"
             icon={<BiMoneyWithdraw />}

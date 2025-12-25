@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import { useProduct } from "../../hooks/useProduct";
 import { actions } from "../../actions";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addItemToCartAPI } from "../../features/product-cart/productCartSlice";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import Loader from "../Loader";
 
 const ShopPage = () => {
+  const isLoading = useSelector((state)=> state.cart.isLaoding)
   const { dispatch, state } = useProduct();
   const dispatchR = useDispatch();
   const {auth} = useAuth();
@@ -74,6 +76,9 @@ const ShopPage = () => {
     };
     getProductData();
   }, []);
+
+  if (isLoading) return <div><Loader/></div>;
+  if (state?.loading) return <div><Loader/></div>;
   return (
     <>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4 pt-10">

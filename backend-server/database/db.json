@@ -69,7 +69,7 @@
     {
       "id": 11,
       "title": "Black Striped T-shirt wow nice",
-      "cover": "uploads/products/cover-1765813487827-269946367.png",
+      "cover": "uploads/products/1766675141217.webp",
       "rating": 4,
       "stock": 21,
       "price": 50,
@@ -79,7 +79,7 @@
     {
       "id": 12,
       "title": "ti shart",
-      "cover": "uploads/products/1765818668822.jpg",
+      "cover": "uploads/products/1766675082213.png",
       "rating": 4,
       "stock": 600,
       "price": 900,
@@ -117,9 +117,9 @@
         "city_select": "Bagerhat",
         "fullAddress": "sfgsdaf"
       },
-      "status": "cancelled",
+      "status": "complete",
       "createdAt": "2025-12-22T15:24:15.513Z",
-      "updatedAt": "2025-12-25T08:52:24.275Z"
+      "updatedAt": "2025-12-25T16:45:54.255Z"
     },
     {
       "id": "ORD-1766603226916",
@@ -163,6 +163,32 @@
       "status": "complete",
       "createdAt": "2025-12-24T19:07:06.916Z",
       "updatedAt": "2025-12-24T19:08:02.025Z"
+    },
+    {
+      "id": "ORD-1766677002238",
+      "userId": "6fd3ed42-2275-4d5f-a436-e5a3bf586c56",
+      "items": [
+        {
+          "productId": 5,
+          "title": "Checkered Shirt",
+          "price": 100,
+          "quantity": 1,
+          "totalPrice": 100,
+          "cover": "uploads/products/image-8-2.png"
+        }
+      ],
+      "subtotal": 100,
+      "shipping": 5,
+      "totalAmount": 105,
+      "paymentMethod": "cod",
+      "customer": {
+        "name": "Mahdi Hasan",
+        "phone": "01305524434",
+        "city_select": "Bogra",
+        "fullAddress": "Nasir maji bhola sador bhola"
+      },
+      "status": "pending",
+      "createdAt": "2025-12-25T15:36:42.238Z"
     }
   ],
   "users": [
