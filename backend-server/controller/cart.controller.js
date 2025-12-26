@@ -172,18 +172,22 @@ const createOrder = (req, res) => {
   const { db } = req.app;
   const { userId, customer, paymentMethod } = req.body;
 
-  // 1️⃣ Validate userId
-  if (!userId) {
-    return res.status(400).json({ message: "User ID is required" });
-  }
+  if (!userId) return res.status(400).json({ message: "User ID required" });
 
-  // 2️⃣ Get cart items for this user
   const cartItems = db.get("cart").filter({ userId }).value();
-  if (!cartItems.length) {
-    return res.status(400).json({ message: "Cart is empty" });
+  if (!cartItems.length) return res.status(400).json({ message: "Cart empty" });
+
+  // 1️⃣ check stock
+  for (let item of cartItems) {
+    const product = db.get("products").find({ id: item.productId }).value();
+    if (!product) return res.status(404).json({ message: "Product not found" });
+    if (product.stock < item.quantity)
+      return res
+        .status(400)
+        .json({ message: `${product.title} stock not enough` });
   }
 
-  // 3️⃣ Prepare order items
+  // 2️⃣ create order
   const orderItems = cartItems.map((item) => ({
     productId: item.productId,
     title: item.title,
@@ -193,34 +197,26 @@ const createOrder = (req, res) => {
     cover: item.cover,
   }));
 
-  // 4️⃣ Price calculations
-  const SHIPPING_COST = 5;
-  const subtotal = orderItems.reduce((sum, item) => sum + item.totalPrice, 0);
-  const totalAmount = subtotal + SHIPPING_COST;
+  const subtotal = orderItems.reduce((sum, i) => sum + i.totalPrice, 0);
+  const totalAmount = subtotal + 5; 
 
-  // 5️⃣ Create order object
   const order = {
     id: "ORD-" + Date.now(),
     userId,
     items: orderItems,
     subtotal,
-    shipping: SHIPPING_COST,
+    shipping: 5,
     totalAmount,
     paymentMethod,
-    customer, // form data: { name, phone, city, address }
-    status: "pending",
+    customer,
+    status: "pending", // initially pending
     createdAt: new Date().toISOString(),
   };
 
-  // 6️⃣ Save order & clear cart
   db.get("orders").push(order).write();
   db.get("cart").remove({ userId }).write();
 
-  // 7️⃣ Return response
-  res.status(201).json({
-    message: "Order placed successfully",
-    order,
-  });
+  res.status(201).json({ message: "Order placed", order });
 };
 
 // PUT /orders/:orderId/status
@@ -229,43 +225,44 @@ const updateOrderStatus = (req, res) => {
   const { orderId } = req.params;
   let { status } = req.body;
 
-  // 1️⃣ Make sure status is string
-  if (!status || typeof status !== "string") {
-    return res.status(400).json({ message: "Status is required" });
-  }
-
-  // 2️⃣ Clean status (trim + lowercase)
   status = status.toLowerCase().trim();
-
-  // 3️⃣ Allowed statuses
   const allowedStatus = ["pending", "complete", "cancelled"];
+  if (!allowedStatus.includes(status))
+    return res.status(400).json({ message: "Invalid status" });
 
-  if (!allowedStatus.includes(status)) {
-    return res.status(400).json({ message: "Invalid order status" });
-  }
-
-  // 4️⃣ Find order
   const order = db.get("orders").find({ id: orderId }).value();
-  if (!order) {
-    return res.status(404).json({ message: "Order not found" });
+  if (!order) return res.status(404).json({ message: "Order not found" });
+
+  // 🔥 handle stock
+  if (order.status !== "complete" && status === "complete") {
+    // deduct stock
+    order.items.forEach((item) => {
+      const product = db.get("products").find({ id: item.productId }).value();
+      if (product) {
+        product.stock -= item.quantity;
+        db.get("products").find({ id: item.productId }).assign(product).write();
+      }
+    });
+  } else if (order.status !== "cancelled" && status === "cancelled") {
+    // return stock
+    order.items.forEach((item) => {
+      const product = db.get("products").find({ id: item.productId }).value();
+      if (product) {
+        product.stock += item.quantity;
+        db.get("products").find({ id: item.productId }).assign(product).write();
+      }
+    });
   }
 
-  // 5️⃣ Update status
+  // update order status
   db.get("orders")
     .find({ id: orderId })
-    .assign({
-      status,
-      updatedAt: new Date().toISOString(),
-    })
+    .assign({ status, updatedAt: new Date().toISOString() })
     .write();
 
-  // 6️⃣ Send response
-  res.json({
-    message: "Order status updated successfully",
-    orderId,
-    status,
-  });
+  res.json({ message: "Order status updated", orderId, status });
 };
+
 
 module.exports.CartController = {
   getCart,

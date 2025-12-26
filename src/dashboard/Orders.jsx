@@ -27,7 +27,12 @@ const Orders = () => {
     setCustomerData(CustomerData);
     setDetailsPopup(true);
   };
-  if (isLoading) return <div><Loader/></div>;
+  if (isLoading)
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
   return (
     <div>
       <aside className="w-[100%] flex justify-between items-center px-6 min-h-[73px] bg-white border-l border-b">

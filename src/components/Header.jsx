@@ -57,7 +57,7 @@ const Header = () => {
             On Sale{" "}
           </a>{" "}
           <Link
-            to="#"
+            to="/order-success"
             className="hover:text-gray-600 transition-colors"
           >
             {" "}

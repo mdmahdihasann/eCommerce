@@ -65,26 +65,6 @@
       "price": 600,
       "productsType": "cover",
       "createdAt": "2025-12-14T18:26:05.421Z"
-    },
-    {
-      "id": 11,
-      "title": "Black Striped T-shirt wow nice",
-      "cover": "uploads/products/1766675141217.webp",
-      "rating": 4,
-      "stock": 21,
-      "price": 50,
-      "productsType": "cover",
-      "createdAt": "2025-12-15T15:44:47.836Z"
-    },
-    {
-      "id": 12,
-      "title": "ti shart",
-      "cover": "uploads/products/1766675082213.png",
-      "rating": 4,
-      "stock": 600,
-      "price": 900,
-      "productsType": "cover",
-      "createdAt": "2025-12-15T16:58:16.892Z"
     }
   ],
   "cart": [
@@ -119,7 +99,7 @@
       },
       "status": "complete",
       "createdAt": "2025-12-22T15:24:15.513Z",
-      "updatedAt": "2025-12-25T16:45:54.255Z"
+      "updatedAt": "2025-12-26T17:53:48.583Z"
     },
     {
       "id": "ORD-1766603226916",
@@ -187,8 +167,120 @@
         "city_select": "Bogra",
         "fullAddress": "Nasir maji bhola sador bhola"
       },
+      "status": "cancelled",
+      "createdAt": "2025-12-25T15:36:42.238Z",
+      "updatedAt": "2025-12-26T17:22:52.500Z"
+    },
+    {
+      "id": "ORD-1766766038364",
+      "userId": "1f237ee0-fd8a-4b2e-a6e3-589e7788d80c",
+      "items": [
+        {
+          "productId": 3,
+          "title": "Black Striped T-shirt",
+          "price": 140,
+          "quantity": 2,
+          "totalPrice": 280,
+          "cover": "uploads/products/image-7.png"
+        },
+        {
+          "productId": 6,
+          "title": "Sleeve Striped T-shirt",
+          "price": 190,
+          "quantity": 1,
+          "totalPrice": 190,
+          "cover": "uploads/products/image-8.png"
+        },
+        {
+          "productId": 11,
+          "title": "Black Striped T-shirt wow nice",
+          "price": 50,
+          "quantity": 2,
+          "totalPrice": 100,
+          "cover": "uploads/products/1766675141217.webp"
+        }
+      ],
+      "subtotal": 570,
+      "shipping": 5,
+      "totalAmount": 575,
+      "paymentMethod": "cod",
+      "customer": {
+        "name": "Ramit Khan",
+        "phone": "0195632487",
+        "city_select": "Bhola",
+        "fullAddress": "Nasir mazi, Bhola"
+      },
+      "status": "complete",
+      "createdAt": "2025-12-26T16:20:38.364Z",
+      "updatedAt": "2025-12-26T17:23:37.107Z"
+    },
+    {
+      "id": "ORD-1766769503057",
+      "userId": "1f237ee0-fd8a-4b2e-a6e3-589e7788d80c",
+      "items": [
+        {
+          "productId": 9,
+          "title": "Loose Fit Bermuda Shorts",
+          "price": 210,
+          "quantity": 1,
+          "totalPrice": 210,
+          "cover": "uploads/products/image-9.png"
+        },
+        {
+          "productId": 8,
+          "title": "Courage Graphic T-shirt",
+          "price": 240,
+          "quantity": 2,
+          "totalPrice": 480,
+          "cover": "uploads/products/image-9-2.png"
+        }
+      ],
+      "subtotal": 690,
+      "shipping": 5,
+      "totalAmount": 695,
+      "paymentMethod": "cod",
+      "customer": {
+        "name": "Ramit Khan",
+        "phone": "01305524434",
+        "city_select": "Bhola",
+        "fullAddress": "Mirpur Dhaka"
+      },
       "status": "pending",
-      "createdAt": "2025-12-25T15:36:42.238Z"
+      "createdAt": "2025-12-26T17:18:23.059Z",
+      "updatedAt": "2025-12-26T17:42:06.968Z"
+    },
+    {
+      "id": "ORD-1766771685776",
+      "userId": "1f237ee0-fd8a-4b2e-a6e3-589e7788d80c",
+      "items": [
+        {
+          "productId": 9,
+          "title": "Loose Fit Bermuda Shorts",
+          "price": 210,
+          "quantity": 1,
+          "totalPrice": 210
+        },
+        {
+          "productId": 8,
+          "title": "Courage Graphic T-shirt",
+          "price": 240,
+          "quantity": 1,
+          "totalPrice": 240
+        }
+      ],
+      "subtotal": 450,
+      "shipping": 5,
+      "totalAmount": 455,
+      "paymentMethod": "cod",
+      "customer": {
+        "name": "asfdsadf",
+        "phone": "0236103",
+        "city_select": "Bagerhat",
+        "fullAddress": "asdfasf"
+      },
+      "status": "cancelled",
+      "createdAt": "2025-12-26T17:54:45.778Z",
+      "updatedAt": "2025-12-26T18:06:33.062Z"
     }
   ],
   "users": [
@@ -257,6 +349,16 @@
       "avatar": null,
       "email": "sojibe@gmail.com",
       "role": "admin"
+    },
+    {
+      "id": "1f237ee0-fd8a-4b2e-a6e3-589e7788d80c",
+      "firstName": "Rasel Khan",
+      "lastName": "Ramit",
+      "email": "ramit@gmail.com",
+      "password": "$2b$08$N129EqzfjODw84/6e6lh3u36Y/vt7qLj./Iai63BReXqadq6CzjrW",
+      "avatar": null,
+      "role": "user",
+      "createdAt": "2025-12-26T16:18:46.644Z"
     }
   ]
 }

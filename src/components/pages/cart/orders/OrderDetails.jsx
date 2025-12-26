@@ -15,10 +15,11 @@ const OrderDetails = () => {
   }, [auth?.user?.id, dispatch]);
 
   const latestOrder =
-    orderData?.orders && orderData.orders.length > 0
-      ? orderData.orders[orderData.orders.length - 1]
+    orderData && orderData.length > 0
+      ? orderData[orderData.length - 1]
       : null;
-
+  console.log(latestOrder);
+  
   return (
     <div className="min-h-screen py-10 px-4 font-sans">
       <div className="max-w-4xl mx-auto">

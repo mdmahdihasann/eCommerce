@@ -117,26 +117,7 @@ const Home = () => {
     featchUser();
   }, []);
 
-  // Load saved theme
-  useEffect(() => {
-    const saved = localStorage.getItem("theme");
-    if (saved === "dark") {
-      document.documentElement.classList.add("dark");
-      setMode(true);
-    }
-  }, []);
-
-  const toggleDarkMode = () => {
-    if (mode) {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    }
-    setMode(!mode);
-  };
-
+  
   return (
     <div className="relative bg-gray-100 text-gray-800">
       <aside className="w-[100%] flex justify-between items-center px-6 min-h-[73px] bg-white border-l border-b">
@@ -144,7 +125,7 @@ const Home = () => {
 
         <div className="flex gap-2">
           <button
-            onClick={() => setMode(toggleDarkMode)}
+            onClick={() => setMode(!mode)}
             className="w-10 h-10 flex items-center mr-4 justify-center rounded-full bg-gray-100 text-gray-700"
           >
             {mode ? <FaSun /> : <FaMoon />}

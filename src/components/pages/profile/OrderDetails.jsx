@@ -28,11 +28,21 @@ const OrderDetails = ({ activeTab }) => {
                     <p className="font-medium text-gray-800">
                       Order ID: {data?.id}
                     </p>
-                    <p className="text-gray-600">Placed on: {new Date(data?.createdAt).toLocaleString()}</p>
+                    <p className="text-gray-600">
+                      Placed on: {new Date(data?.createdAt).toLocaleString()}
+                    </p>
                     <p className="mt-1 font-semibold text-gray-800">
                       Total: ${data?.totalAmount}
                     </p>
-                    <p className={`${data?.status === "complete" ? "text-green-700" : "text-yellow-300" } font-semibold mt-1 capitalize`}>
+                    <p
+                      className={`${
+                        data?.status === "complete"
+                          ? "text-green-700"
+                          : data?.status === "pending"
+                          ? "text-yellow-300"
+                          : "text-red-600"
+                      } font-semibold mt-1 capitalize`}
+                    >
                       Status: {data?.status}
                     </p>
                   </div>

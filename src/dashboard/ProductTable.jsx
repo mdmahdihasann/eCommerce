@@ -6,11 +6,12 @@ import { HiOutlinePencilAlt } from "react-icons/hi";
 import { RiDeleteBin4Line } from "react-icons/ri";
 import toast from "react-hot-toast";
 import Loader from "../components/Loader";
+import Swal from "sweetalert2";
 
 const ProductTable = ({onProductEdit}) => {
   const { api } = useAxios();
   const { state, dispatch } = useProduct();
-  const productTableData = state?.products?.sort((a, b)=> b.id - a.id);
+  const productData = state?.products?.sort((a, b)=> b.id - a.id)
   useEffect(() => {
     const productDataFeched = async () => {
       dispatch({ type: actions.products.DATA_FETCHING });
@@ -30,23 +31,34 @@ const ProductTable = ({onProductEdit}) => {
       }
     };
     productDataFeched();
-  }, []);
+  }, [api, dispatch]);
 
-  //updated
-  
 
   //delete code
   const handleDelete = async(delteId) =>{
+    const result = await Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Yes, delete it!",
+  });
+  if(result.isConfirmed){
     dispatch({ type: actions.products.DATA_FETCH_ERROR });
     try {
       const response = await api.delete(`${import.meta.env.VITE_SERVER_BASE_URL}/products/${delteId}`)
       if(response.status === 200){
+        
         dispatch({type: actions.products.DATA_DELETE, data: delteId})
         toast.success("Deleted Successfully")
       }
     } catch (error) {
       dispatch({type: actions.products.DATA_FETCH_ERROR, error: error.message})
     }
+  }
+    
   }
 
   if (state?.loading) return <div><Loader/></div>;
@@ -65,7 +77,8 @@ const ProductTable = ({onProductEdit}) => {
         </tr>
       </thead>
       <tbody className="divide-y divide-gray-200">
-        {productTableData?.map((p) => (
+        {productData?.map((p) => (
+          
           <tr key={p.id} className="hover:bg-gray-50 transition">
             <td className="px-6 py-3">{p.id}</td>
             <td className="px-6 py-3 font-medium">{p.title}</td>
